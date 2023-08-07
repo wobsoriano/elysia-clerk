@@ -3,7 +3,7 @@ import type { ClerkOptions, SignedInAuthObject, SignedOutAuthObject } from '@cle
 import * as constants from './constants'
 import { clerkClient } from './clerkClient'
 
-export default function clerkPlugin(options: ClerkOptions) {
+function clerkPlugin(options: ClerkOptions) {
   const secretKey = options.secretKey || constants.SECRET_KEY
   const publishableKey = options.publishableKey || constants.PUBLISHABLE_KEY
 
@@ -50,3 +50,10 @@ export default function clerkPlugin(options: ClerkOptions) {
       store.auth = requestState.toAuth()
     })
 }
+
+export {
+  clerkPlugin,
+  type ClerkOptions,
+}
+
+export { clerkClient, createClerkClient } from './clerkClient'

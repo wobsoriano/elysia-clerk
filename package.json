@@ -37,6 +37,7 @@
     "@antfu/eslint-config": "^0.40.0",
     "@elysiajs/html": "^0.6.0",
     "bumpp": "^9.1.1",
+    "bun-plugin-dts-auto": "^0.2.2",
     "bun-types": "^0.7.3",
     "elysia": "^0.6.1",
     "eslint": "^8.46.0",
