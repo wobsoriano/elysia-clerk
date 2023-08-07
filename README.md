@@ -10,6 +10,13 @@ bun install elysia-clerk
 
 ## Usage
 
+Retrieve your Backend API key from the [API Keys](https://dashboard.clerk.com/last-active?path=api-keys) screen in your Clerk dashboard and set it as an environment variable in a .env file:
+
+```sh
+CLERK_PUBLISHABLE_KEY=pk_*******
+CLERK_SECRET_KEY=sk_******
+```
+
 ```ts
 import { Elysia } from 'elysia'
 import { clerkClient, clerkPlugin } from 'elysia-clerk'
