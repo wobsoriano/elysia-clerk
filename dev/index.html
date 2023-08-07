@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+    html,
+    body {
+      font-family: 'Lato', sans-serif;
+      text-align: center;
+    }
+
+    #user-button {
+      margin: auto;
+    }
+
+    #auth-links {
+      display: none;
+    }
+
+    #no-frontend-api-warning h3 {
+      color: #e61d1d;
+      margin-bottom: 0;
+    }
+
+    #no-frontend-api-warning h4 {
+      color: #333;
+      font-weight: 400;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Clerk Elysia Starter</h1>
+
+  <div id="auth-links">
+    <button onclick="Clerk.openSignUp()">Sign Up</button>
+    <button onclick="Clerk.openSignIn()">Sign In</button>
+  </div>
+
+  <div id="user-button"></div>
+
+  <div id="no-frontend-api-warning" hidden>
+    <h3>No Frontend API found</h3>
+    <h4>Add it to the top of <code>src/script.js</code>.</h4>
+  </div>
+
+  <script src="/app.js" async crossorigin="anonymous"></script>
+</body>
+</html>
