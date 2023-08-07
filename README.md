@@ -1,6 +1,6 @@
 # elysia-clerk
 
-Unofficial Clerk plugin for [Elysia.js](https://elysiajs.com/).
+Unofficial [Clerk](https://clerk.com/) plugin for [Elysia.js](https://elysiajs.com/).
 
 ## Install
 
