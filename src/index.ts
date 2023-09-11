@@ -11,6 +11,7 @@ function clerkPlugin(options?: ClerkOptions) {
     name: 'clerk',
     seed: options,
   })
+    .decorate('clerk', clerkClient)
     .state('auth', null as null | SignedInAuthObject | SignedOutAuthObject)
     .onBeforeHandle(async ({ request, set, store }) => {
       const requestState = await clerkClient.authenticateRequest({
