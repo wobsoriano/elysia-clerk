@@ -31,7 +31,7 @@
     "elysia": "^0.6.0"
   },
   "dependencies": {
-    "@clerk/backend": "^0.27.0"
+    "@clerk/backend": "^0.29.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.40.0",
