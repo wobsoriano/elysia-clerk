@@ -19,17 +19,17 @@ CLERK_SECRET_KEY=sk_******
 
 ```ts
 import { Elysia } from 'elysia'
-import { clerkClient, clerkPlugin } from 'elysia-clerk'
+import { clerkPlugin } from 'elysia-clerk'
 
 new Elysia()
   .use(clerkPlugin())
-  .get('/private', async ({ store: { auth }, set }) => {
-    if (!auth?.userId) {
+  .get('/private', async ({ clerk, store, set }) => {
+    if (!store.auth?.userId) {
       set.status = 403
       return 'Unauthorized'
     }
 
-    const user = await clerkClient.users.getUser(auth.userId)
+    const user = await clerk.users.getUser(store.auth.userId)
 
     return { user }
   })
@@ -40,17 +40,18 @@ Instead of using Clerk globally, you can use Clerk for a subset of routes via El
 
 ```ts
 import { Elysia } from 'elysia'
-import { clerkClient, clerkPlugin } from 'elysia-clerk'
+import { clerkPlugin } from 'elysia-clerk'
 
 const privateRoutes = new Elysia({ prefix: '/api' })
   .use(clerkPlugin())
-  .get('/user', async ({ store: { auth }, set }) => {
-    if (!auth?.userId) {
+  .get('/user', async ({ clerk, store, set }) => {
+
+    if (!store.auth?.userId) {
       set.status = 403
       return 'Unauthorized'
     }
 
-    const user = await clerkClient.users.getUser(auth.userId)
+    const user = await clerk.users.getUser(store.auth.userId)
 
     return { user }
   })

@@ -20,7 +20,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "bun --watch run ./dev/index.ts",
+    "dev": "bun run --watch ./dev/index.tsx",
     "build": "bun run ./build.mjs",
     "prepublishOnly": "bun run build",
     "release": "bumpp && npm publish",

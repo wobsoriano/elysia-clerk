@@ -17,7 +17,14 @@ const subset = new Elysia({ prefix: '/api' })
 const app = new Elysia()
   .use(html())
   .use(clerkPlugin({}))
-  .get('/', () => contents)
+  // .get('/', ({ html }) => html(contents))
+  .get('/', (context) => {
+    return new Response(contents, {
+      headers: {
+        'content-type': 'text/html',
+      },
+    })
+  })
   .get('/app.js', () => {
     return appContents.replace('REPLACE_ME', process.env.CLERK_PUBLISHABLE_KEY as string)
   })

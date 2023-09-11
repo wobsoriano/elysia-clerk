@@ -13,6 +13,9 @@
     "allowJs": true,
     "types": [
       "bun-types"
-    ]
+    ],
+    "jsx": "react",
+    "jsxFactory": "ElysiaJSX",
+    "jsxFragmentFactory": "ElysiaJSX.Fragment"
   }
 }
