@@ -28,7 +28,7 @@
     "format": "biome format src --write"
   },
   "peerDependencies": {
-    "elysia": "^0.6.0"
+    "elysia": ">= 0.7.0"
   },
   "dependencies": {
     "@clerk/backend": "^0.31.2"
