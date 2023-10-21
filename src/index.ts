@@ -10,11 +10,12 @@ import * as constants from './constants';
 function clerkPlugin(options?: ClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
 	const publishableKey = options?.publishableKey ?? constants.PUBLISHABLE_KEY;
-
-	return new Elysia({
+	const app = new Elysia({
 		name: 'clerk',
 		seed: options,
-	})
+	});
+
+	return app
 		.decorate('clerk', clerkClient)
 		.state('auth', null as null | SignedInAuthObject | SignedOutAuthObject)
 		.onBeforeHandle(async ({ request, set, store }) => {
