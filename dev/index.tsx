@@ -15,6 +15,7 @@ const subset = new Elysia({ prefix: '/api' })
   })
 
 const app = new Elysia()
+  // @ts-expect-error: Incorrect html plugin types
   .use(html())
   .use(clerkPlugin({}))
   // .get('/', ({ html }) => html(contents))
