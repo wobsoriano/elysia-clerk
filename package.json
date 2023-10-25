@@ -39,7 +39,7 @@
     "bumpp": "^9.2.0",
     "bun-plugin-dts-auto": "^0.2.2",
     "bun-types": "^1.0.7",
-    "elysia": "^0.7.17",
+    "elysia": "^0.7.19",
     "typescript": "5.2.2"
   }
 }
