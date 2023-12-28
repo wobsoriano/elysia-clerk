@@ -14,14 +14,27 @@
     "bun",
     "auth"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "bun run --watch ./dev/index.tsx",
-    "build": "bun run ./build.mjs",
+    "build": "bunchee",
     "prepublishOnly": "bun run build",
     "release": "bumpp && npm publish",
     "lint": "biome check src",
@@ -34,10 +47,10 @@
     "@clerk/backend": "^0.37.0"
   },
   "devDependencies": {
+    "bunchee": "^4.2.6",
     "@biomejs/biome": "1.4.1",
     "@elysiajs/html": "^0.8.0",
     "bumpp": "^9.2.1",
-    "bun-plugin-dts-auto": "^0.2.2",
     "@types/bun": "^1.0.0",
     "elysia": "^0.8.5",
     "typescript": "5.3.3"
