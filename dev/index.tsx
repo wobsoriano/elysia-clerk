@@ -28,10 +28,17 @@ const app = new Elysia()
   .get('/app.js', () => {
     return appContents.replace('REPLACE_ME', process.env.CLERK_PUBLISHABLE_KEY as string)
   })
-  .get('/auth', async (context) => {
-    return context.store.auth
+  .get('/private', async ({ clerk, store, set }) => {
+    if (!store.auth?.userId) {
+      set.status = 403
+      return 'Unauthorized'
+    }
+  
+    const user = await clerk.users.getUser(store.auth.userId)
+  
+    return { user }
   })
-  .use(subset)
+  // .use(subset)
   .listen(3000)
 
 console.log(
