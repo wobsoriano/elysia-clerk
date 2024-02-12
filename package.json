@@ -47,12 +47,12 @@
     "@clerk/backend": "^0.38.1"
   },
   "devDependencies": {
-    "bunchee": "^4.2.6",
     "@biomejs/biome": "1.4.1",
     "@elysiajs/html": "^0.8.0",
-    "bumpp": "^9.2.1",
-    "@types/bun": "^1.0.0",
-    "elysia": "^0.8.5",
+    "@types/bun": "^1.0.5",
+    "bumpp": "^9.3.0",
+    "bunchee": "^4.4.6",
+    "elysia": "^0.8.17",
     "typescript": "5.3.3"
   }
 }
