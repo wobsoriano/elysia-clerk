@@ -37,22 +37,25 @@
     "build": "bunchee",
     "prepublishOnly": "bun run build",
     "release": "bumpp && npm publish",
-    "lint": "biome check src",
-    "format": "biome format src --write"
+    "lint": "biome check src tests",
+    "format": "biome format src tests --write",
+    "test": "bun test",
+    "test:watch": "bun test --watch"
   },
   "peerDependencies": {
-    "elysia": "^0.8.0"
+    "elysia": "^1.0.0"
   },
   "dependencies": {
-    "@clerk/backend": "^0.38.1"
+    "@clerk/backend": "^0.38.1",
+    "@elysiajs/eden": "^1.0.8"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
-    "@elysiajs/html": "^0.8.0",
+    "@elysiajs/html": "^1.0.2",
     "@types/bun": "^1.0.5",
     "bumpp": "^9.3.0",
     "bunchee": "^4.4.6",
-    "elysia": "^0.8.17",
+    "elysia": "^1.0.9",
     "typescript": "5.3.3"
   }
 }

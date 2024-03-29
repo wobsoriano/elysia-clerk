@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia'
 import { html } from '@elysiajs/html'
 import { clerkPlugin } from '../src'
+import innerRoute from './inner-route'
 
 const file = Bun.file(`${import.meta.dir}/index.html`)
 const contents = await file.text()
@@ -38,6 +39,7 @@ const app = new Elysia()
   
     return { user }
   })
+  .use(innerRoute)
   // .use(subset)
   .listen(3000)
 
