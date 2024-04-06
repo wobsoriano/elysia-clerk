@@ -38,6 +38,7 @@
     "prepublishOnly": "bun run build",
     "release": "bumpp && npm publish",
     "lint": "biome check src tests",
+    "lint:fix": "biome check --apply src tests",
     "format": "biome format src tests --write",
     "test": "bun test",
     "test:watch": "bun test --watch"

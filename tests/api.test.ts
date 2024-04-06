@@ -1,6 +1,6 @@
-import { describe, test, expect } from 'bun:test';
-import { api } from './utils/example-app';
+import { describe, expect, test } from 'bun:test';
 import { CLERK_LONG_LIVED_TOKEN } from './constants/api-clerk';
+import { api } from './utils/example-app';
 
 describe('ClerkPlugin', () => {
 	describe('public routes', () => {
@@ -19,7 +19,7 @@ describe('ClerkPlugin', () => {
 		test('public route should not have access to clerk API when token is invalid', async () => {
 			const { data } = await api.index.get({
 				$headers: {
-					Authorization: `Bearer invalid token`,
+					Authorization: 'Bearer invalid token',
 				},
 			});
 
@@ -45,7 +45,7 @@ describe('ClerkPlugin', () => {
 		test('private route should not have access clerk API when token is invalid', async () => {
 			const { data } = await api.private.get({
 				$headers: {
-					Authorization: `Bearer invalid token`,
+					Authorization: 'Bearer invalid token',
 				},
 			});
 
@@ -72,7 +72,7 @@ describe('ClerkPlugin', () => {
 		test('group private routes should not have access clerk API when token is invalid', async () => {
 			const { data } = await api.group.private.get({
 				$headers: {
-					Authorization: `Bearer invalid token`,
+					Authorization: 'Bearer invalid token',
 				},
 			});
 

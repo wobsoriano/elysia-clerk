@@ -1,6 +1,6 @@
+import { edenTreaty } from '@elysiajs/eden';
 import { Elysia } from 'elysia';
 import { clerkPlugin } from '../../src';
-import { edenTreaty } from '@elysiajs/eden';
 
 const privateGroup = new Elysia().group('/group', (app) =>
 	app.get('/private', async ({ clerk, store, set }) => {
