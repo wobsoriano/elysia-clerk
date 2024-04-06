@@ -1,0 +1,1 @@
+export const CLERK_LONG_LIVED_TOKEN = process.env.CLERK_LONG_LIVED_TOKEN;
