@@ -34,9 +34,9 @@ const app = new Elysia()
       set.status = 403
       return 'Unauthorized'
     }
-  
+
     const user = await clerk.users.getUser(store.auth.userId)
-  
+
     return { user }
   })
   .use(innerRoute)
