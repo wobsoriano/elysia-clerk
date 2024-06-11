@@ -47,7 +47,7 @@
     "elysia": "^1.0.0"
   },
   "dependencies": {
-    "@clerk/backend": "^0.38.1",
+    "@clerk/backend": "^0.38.12",
     "@elysiajs/eden": "^1.0.14"
   },
   "devDependencies": {
