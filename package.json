@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@clerk/backend": "^0.38.1",
-    "@elysiajs/eden": "^1.0.8"
+    "@elysiajs/eden": "^1.0.14"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
