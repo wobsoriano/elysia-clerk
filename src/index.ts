@@ -1,11 +1,13 @@
-import type { AuthObject, ClerkOptions } from '@clerk/backend';
+import type { ClerkOptions } from '@clerk/backend';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
+import { AuthStatus, SignedInAuthObject, SignedOutAuthObject } from '@clerk/backend/internal';
 
 function clerkPlugin(options?: ClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
 	const publishableKey = options?.publishableKey ?? constants.PUBLISHABLE_KEY;
+
 	const app = new Elysia({
 		name: 'clerk',
 		seed: options,
@@ -13,40 +15,27 @@ function clerkPlugin(options?: ClerkOptions) {
 
 	return app
 		.decorate('clerk', clerkClient)
-		.state('auth', null as null | AuthObject)
+		.state('auth', null as null | SignedInAuthObject | SignedOutAuthObject)
 		.onBeforeHandle({ as: 'scoped' }, async ({ request, set, store }) => {
-			const requestState = await clerkClient.authenticateRequest({
+			const requestState = await clerkClient.authenticateRequest(request, {
 				...options,
 				secretKey,
-				publishableKey,
-				apiKey: constants.API_KEY,
-				frontendApi: constants.FRONTEND_API,
-				request,
+        publishableKey,
 			});
 
-			if (requestState.isUnknown) {
-				set.status = 401;
-				set.headers = {
-					[constants.Headers.AuthReason]: requestState.reason,
-					[constants.Headers.AuthMessage]: requestState.message,
-				};
-				return '';
+			requestState.headers.forEach((value, key) => {
+			  set.headers[key] = value;
+			})
+
+			const locationHeader = requestState.headers.get(constants.Headers.Location);
+
+			if (locationHeader) {
+			  set.status = 307;
+        return '';
 			}
 
-			if (requestState.isInterstitial) {
-				const interstitialHtmlPage = clerkClient.localInterstitial({
-					publishableKey,
-					frontendApi: constants.FRONTEND_API,
-				});
-
-				set.status = 401;
-				set.headers = {
-					[constants.Headers.AuthReason]: requestState.reason,
-					[constants.Headers.AuthMessage]: requestState.message,
-					'Content-Type': 'text/html',
-				};
-
-				return interstitialHtmlPage;
+			if (requestState.status === AuthStatus.Handshake) {
+			 throw new Error('Clerk: handshake status without redirect');
 			}
 
 			store.auth = requestState.toAuth();
@@ -55,4 +44,4 @@ function clerkPlugin(options?: ClerkOptions) {
 
 export { clerkPlugin, type ClerkOptions };
 
-export { clerkClient, createClerkClient } from './clerkClient';
+export { clerkClient } from './clerkClient';
