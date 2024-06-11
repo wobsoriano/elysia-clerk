@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia'
 import { html } from '@elysiajs/html'
-import { clerkPlugin } from '../src'
+import { clerkPlugin } from '../dist'
 import innerRoute from './inner-route'
 
 const file = Bun.file(`${import.meta.dir}/index.html`)
@@ -34,9 +34,9 @@ const app = new Elysia()
       set.status = 403
       return 'Unauthorized'
     }
-  
+
     const user = await clerk.users.getUser(store.auth.userId)
-  
+
     return { user }
   })
   .use(innerRoute)
