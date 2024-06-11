@@ -40,7 +40,7 @@
     "lint": "biome check src tests",
     "lint:fix": "biome check --apply src tests",
     "format": "biome format src tests --write",
-    "test": "bun test",
+    "test": "bun test --preload ./setup.ts",
     "test:watch": "bun test --watch"
   },
   "peerDependencies": {
