@@ -33,7 +33,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "bun run --watch ./dev/index.tsx",
+    "dev": "bun run --preload ./setup.ts --watch ./dev/index.tsx",
     "build": "tsup --env.NODE_ENV production",
     "prepublishOnly": "bun run build",
     "release": "bumpp && npm publish",

@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia'
 import { html } from '@elysiajs/html'
-import { clerkPlugin } from '../dist'
+import { clerkPlugin } from '../src'
 import innerRoute from './inner-route'
 
 const file = Bun.file(`${import.meta.dir}/index.html`)
