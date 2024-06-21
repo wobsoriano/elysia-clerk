@@ -31,11 +31,11 @@ export function clerkPlugin(options?: ClerkOptions) {
 				set.headers[key] = value;
 			});
 
-			const locationHeader = requestState.headers.get(
+			const hasLocationHeader = requestState.headers.get(
 				constants.Headers.Location,
 			);
-
-			if (locationHeader) {
+			if (hasLocationHeader) {
+			  // Trigger a handshake redirect
 				set.status = 307;
 				return;
 			}
