@@ -39,7 +39,7 @@
     "release": "bumpp && npm publish",
     "lint": "biome check src tests",
     "lint:fix": "biome check --apply src tests",
-    "format": "biome format src tests --write",
+    "format": "biome format src --write",
     "test": "bun test --preload ./setup.ts",
     "test:watch": "bun test --watch"
   },
@@ -53,9 +53,9 @@
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
     "@elysiajs/html": "^1.0.2",
-    "@types/bun": "^1.1.5",
+    "@types/bun": "^1.1.6",
     "bumpp": "^9.4.1",
-    "elysia": "^1.0.25",
+    "elysia": "^1.0.27",
     "tsup": "^8.1.0",
     "typescript": "5.3.3"
   }

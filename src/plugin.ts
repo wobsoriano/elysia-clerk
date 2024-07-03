@@ -35,7 +35,7 @@ export function clerkPlugin(options?: ClerkOptions) {
 				constants.Headers.Location,
 			);
 			if (hasLocationHeader) {
-			  // Trigger a handshake redirect
+				// Trigger a handshake redirect
 				set.status = 307;
 				return;
 			}
