@@ -33,7 +33,7 @@ describe('plugin(options)', () => {
 			}),
 		);
 		const body = await response.json();
-		console.log(body);
+
 		expect(response.status).toBe(200);
 		expect(body).toEqual({ auth: 'mockedAuth' });
 		expect(globalThis.authenticateRequestMock).toBeCalledWith(
