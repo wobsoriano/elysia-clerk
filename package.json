@@ -37,8 +37,8 @@
     "build": "tsup --env.NODE_ENV production",
     "prepublishOnly": "bun run build",
     "release": "bumpp && npm publish",
-    "lint": "biome check src tests",
-    "lint:fix": "biome check --apply src tests",
+    "lint": "biome check src",
+    "lint:fix": "biome check --apply src",
     "format": "biome format src --write",
     "test": "bun test --preload ./setup.ts",
     "test:watch": "bun test --watch"
