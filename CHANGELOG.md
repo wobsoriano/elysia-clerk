@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 0.5.3
+
+### Patch Changes
+
+- 82e14da: Remove unused dependency
+
 ## 0.5.2
 
 ### Patch Changes
