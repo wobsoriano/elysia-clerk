@@ -6,6 +6,8 @@ import {
 	JWT_KEY,
 	SDK_METADATA,
 	SECRET_KEY,
+	TELEMETRY_DISABLED,
+	TELEMETRY_DEBUG,
 } from './constants';
 
 export const clerkClient = createClerkClient({
@@ -15,4 +17,8 @@ export const clerkClient = createClerkClient({
 	jwtKey: JWT_KEY,
 	userAgent: `${PACKAGE_NAME}@${PACKAGE_VERSION}`,
 	sdkMetadata: SDK_METADATA,
+	telemetry: {
+    disabled: TELEMETRY_DISABLED,
+    debug: TELEMETRY_DEBUG,
+  },
 });

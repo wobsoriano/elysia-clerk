@@ -1,5 +1,6 @@
 import { constants } from '@clerk/backend/internal';
 import { apiUrlFromPublishableKey } from '@clerk/shared/apiUrlFromPublishableKey';
+import { isTruthy } from '@clerk/shared/underscore'
 
 export const API_VERSION = process.env.CLERK_API_VERSION || 'v1';
 export const SECRET_KEY = process.env.CLERK_SECRET_KEY || '';
@@ -12,5 +13,7 @@ export const SDK_METADATA = {
 	version: PACKAGE_VERSION,
 	environment: process.env.NODE_ENV,
 };
+export const TELEMETRY_DISABLED = isTruthy(process.env.CLERK_TELEMETRY_DISABLED)
+export const TELEMETRY_DEBUG = isTruthy(process.env.CLERK_TELEMETRY_DEBUG)
 
 export const { Cookies, Headers } = constants;
