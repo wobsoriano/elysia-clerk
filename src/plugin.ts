@@ -1,8 +1,5 @@
 import type { ClerkOptions } from '@clerk/backend';
-import {
-	AuthStatus,
-	AuthObject
-} from '@clerk/backend/internal';
+import { AuthObject, AuthStatus } from '@clerk/backend/internal';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
