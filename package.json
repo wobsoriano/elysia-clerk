@@ -47,12 +47,12 @@
     "elysia": "^1.0.0"
   },
   "dependencies": {
-    "@clerk/backend": "^1.4.3",
-    "@elysiajs/eden": "^1.1.2"
+    "@clerk/backend": "^1.4.3"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
     "@changesets/cli": "^2.27.7",
+    "@elysiajs/eden": "^1.1.2",
     "@elysiajs/html": "^1.1.0",
     "@types/bun": "^1.1.6",
     "elysia": "^1.1.4",
