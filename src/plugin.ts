@@ -1,8 +1,7 @@
 import type { ClerkOptions } from '@clerk/backend';
 import {
 	AuthStatus,
-	SignedInAuthObject,
-	SignedOutAuthObject,
+	AuthObject
 } from '@clerk/backend/internal';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
@@ -19,7 +18,7 @@ export function clerkPlugin(options?: ClerkOptions) {
 
 	return app
 		.decorate('clerk', clerkClient)
-		.state('auth', null as null | SignedInAuthObject | SignedOutAuthObject)
+		.state('auth', null as null | AuthObject)
 		.onBeforeHandle({ as: 'scoped' }, async ({ request, set, store }) => {
 			const requestState = await clerkClient.authenticateRequest(request, {
 				...options,
