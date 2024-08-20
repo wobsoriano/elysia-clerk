@@ -1,9 +1,9 @@
 import type { ClerkOptions } from '@clerk/backend';
 import { AuthObject } from '@clerk/backend';
+import { AuthStatus } from '@clerk/backend/internal';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
-import { AuthStatus } from '@clerk/backend/internal';
 
 export function clerkPlugin(options?: ClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
