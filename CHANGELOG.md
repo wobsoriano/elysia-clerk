@@ -1,5 +1,13 @@
 # elysia-clerk
 
+## 0.5.4
+
+### Patch Changes
+
+- 3f43064: Update usage docs
+- 8f72ecc: Bump @clerk/backend to 1.7.0
+- e69451a: Fix AuthObject import
+
 ## 0.5.3
 
 ### Patch Changes
