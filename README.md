@@ -1,6 +1,9 @@
 # elysia-clerk
 
-Unofficial [Clerk](https://clerk.com/) plugin for [Elysia.js](https://elysiajs.com/).
+Elysia plugin to integrate with [Clerk](https://clerk.com/).
+
+> [!NOTE]
+> This unofficial package isn't connected to Clerk.com. It's a project designed to smoothly incorporate Clerk features to your Elysia applications.
 
 ## Install
 
