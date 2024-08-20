@@ -72,6 +72,8 @@ new Elysia()
   .listen(3000)
 ```
 
+To see the available options you can pass to the `clerkPlugin` function, see [`AuthenticateRequestOptions`](https://clerk.com/docs/references/backend/authenticate-request#authenticate-request-options).
+
 ## License
 
 MIT
