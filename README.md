@@ -24,11 +24,19 @@ import { clerkPlugin } from 'elysia-clerk'
 new Elysia()
   .use(clerkPlugin())
   .get('/private', async ({ clerk, store, set }) => {
+    /**
+     * Access the auth state in the store context.
+     * See the AuthObject here https://clerk.com/docs/references/nextjs/auth-object#auth-object
+     */
     if (!store.auth?.userId) {
       set.status = 403
       return 'Unauthorized'
     }
 
+    /**
+     * For other resource operations, you can use the clerk client from the context.
+     * See more examples here https://clerk.com/docs/references/backend/overview
+     */
     const user = await clerk.users.getUser(store.auth.userId)
 
     return { user }
