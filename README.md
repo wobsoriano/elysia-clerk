@@ -17,6 +17,8 @@ CLERK_PUBLISHABLE_KEY=pk_*******
 CLERK_SECRET_KEY=sk_******
 ```
 
+Configure `clerkPlugin` in your Elysia application
+
 ```ts
 import { Elysia } from 'elysia'
 import { clerkPlugin } from 'elysia-clerk'
