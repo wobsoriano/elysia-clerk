@@ -20,7 +20,6 @@ export const app = new Elysia()
     return appContents.replace('REPLACE_ME', process.env.CLERK_PUBLISHABLE_KEY as string)
   })
   .get('/private', async ({ clerk, set, auth }) => {
-    console.log('auth', auth)
     if (!auth?.userId) {
       set.status = 403
       return 'Unauthorized'
