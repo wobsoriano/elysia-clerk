@@ -17,7 +17,7 @@ export function clerkPlugin(options?: ClerkOptions) {
 		.state('auth', null as null | AuthObject)
 		.resolve(async ({ request, set, store }) => {
 			console.warn(
-				`Accessing auth from store will be removed in version 0.6.0. Use the auth property from the context instead.`,
+				`elysia-clerk: Accessing auth from store will be removed in version 0.6.0. Use the auth property from the context instead.`,
 			);
 
 			const requestState = await clerkClient.authenticateRequest(request, {
@@ -47,7 +47,7 @@ export function clerkPlugin(options?: ClerkOptions) {
 				throw new Error('Clerk: handshake status without redirect');
 			}
 
-			// // Remove this in 0.6.0
+			// Remove this in 0.6.0
 			store.auth = auth;
 
 			return {
