@@ -50,13 +50,13 @@
     "@clerk/backend": "^1.7.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.5.3",
+    "@biomejs/biome": "1.8.3",
     "@changesets/cli": "^2.27.7",
     "@elysiajs/eden": "^1.1.2",
     "@elysiajs/html": "^1.1.0",
     "@types/bun": "^1.1.6",
-    "elysia": "^1.1.4",
-    "tsup": "^8.2.3",
-    "typescript": "5.3.3"
+    "elysia": "^1.1.7",
+    "tsup": "^8.2.4",
+    "typescript": "5.5.4"
   }
 }

@@ -1,5 +1,5 @@
-import type { ClerkOptions } from '@clerk/backend';
-import { AuthObject } from '@clerk/backend';
+import type { ClerkClient, ClerkOptions } from '@clerk/backend';
+import type { AuthObject } from '@clerk/backend';
 import { AuthStatus } from '@clerk/backend/internal';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
@@ -9,15 +9,14 @@ export function clerkPlugin(options?: ClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
 	const publishableKey = options?.publishableKey ?? constants.PUBLISHABLE_KEY;
 
-	const app = new Elysia({
-		name: 'clerk',
-		seed: options,
-	});
-
-	return app
+	return (
+		new Elysia({
+			name: 'clerk',
+			seed: options,
+		}) as InternalClerkElysia
+	)
 		.decorate('clerk', clerkClient)
-		.state('auth', null as null | AuthObject)
-		.onBeforeHandle({ as: 'scoped' }, async ({ request, set, store }) => {
+		.resolve({ as: 'scoped' }, async ({ set, request }) => {
 			const requestState = await clerkClient.authenticateRequest(request, {
 				...options,
 				secretKey,
@@ -41,6 +40,23 @@ export function clerkPlugin(options?: ClerkOptions) {
 				throw new Error('Clerk: handshake status without redirect');
 			}
 
-			store.auth = requestState.toAuth();
+			return {
+				auth: requestState.toAuth(),
+			};
 		});
 }
+
+type InternalClerkElysia = Elysia<
+	'',
+	false,
+	{
+		decorator: {
+			clerk: ClerkClient;
+		};
+		store: {};
+		derive: {};
+		resolve: {
+			readonly auth: AuthObject;
+		};
+	}
+>;

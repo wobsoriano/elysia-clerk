@@ -1,4 +1,5 @@
 import Elysia from "elysia";
+import { app } from './index'
 
 /**
  * @description There is a known error for properties 'clerk' and 'store.auth'
@@ -10,7 +11,9 @@ import Elysia from "elysia";
  *  - Property 'auth' does not exist on type '{}'
  * Issue: https://github.com/elysiajs/elysia/issues/566
  */
-const innerRoute = new Elysia().get("/inner", async ({ clerk, store, set }) => {
+const innerRoute = new Elysia()
+  // .use(app.prefix('decorator', 'setup'))
+  .get("/inner", async ({ clerk, store, set }) => {
   if (!store.auth?.userId) {
     set.status = 403;
     return "Unauthorized";
