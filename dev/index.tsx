@@ -10,13 +10,17 @@ const appFile = Bun.file(`${import.meta.dir}/app.js`)
 const appContents = await appFile.text()
 
 export const app = new Elysia()
+  .onError(({ code, error }) => {
+    console.error(code, error)
+  })
+  .use(clerkPlugin())
   .use(html())
-  .use(clerkPlugin({}))
   .get('/', () => contents)
   .get('/app.js', () => {
     return appContents.replace('REPLACE_ME', process.env.CLERK_PUBLISHABLE_KEY as string)
   })
   .get('/private', async ({ clerk, set, auth }) => {
+    console.log('auth', auth)
     if (!auth?.userId) {
       set.status = 403
       return 'Unauthorized'

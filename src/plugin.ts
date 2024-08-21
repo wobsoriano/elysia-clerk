@@ -16,7 +16,7 @@ export function clerkPlugin(options?: ClerkOptions) {
 		}) as InternalClerkElysia
 	)
 		.decorate('clerk', clerkClient)
-		.resolve({ as: 'scoped' }, async ({ set, request }) => {
+		.resolve({ as: 'global' }, async ({ set, request }) => {
 			const requestState = await clerkClient.authenticateRequest(request, {
 				...options,
 				secretKey,
@@ -25,7 +25,7 @@ export function clerkPlugin(options?: ClerkOptions) {
 
 			requestState.headers.forEach((value, key) => {
 				set.headers[key] = value;
-			});
+ 			});
 
 			const hasLocationHeader = requestState.headers.get(
 				constants.Headers.Location,

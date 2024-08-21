@@ -34,7 +34,7 @@
   ],
   "scripts": {
     "dev": "bun run --preload ./setup.ts --watch ./dev/index.tsx",
-    "build": "tsup --env.NODE_ENV production",
+    "build": "tsup src/index.ts --env.NODE_ENV production",
     "prepublishOnly": "bun run build",
     "release": "changeset publish",
     "lint": "biome check src",
