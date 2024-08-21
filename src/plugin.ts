@@ -16,8 +16,8 @@ export function clerkPlugin(options?: ClerkOptions) {
 		.decorate('clerk', clerkClient)
 		.state('auth', null as null | AuthObject)
 		.resolve(async ({ request, set, store }) => {
-			console.warn(
-				`elysia-clerk: Accessing auth from store will be removed in version 0.6.0. Use the auth property from the context instead.`,
+			logWarning(
+				'Accessing auth from store will be removed in version 0.6.0. Use the auth property from the context instead.',
 			);
 
 			const requestState = await clerkClient.authenticateRequest(request, {
@@ -56,3 +56,8 @@ export function clerkPlugin(options?: ClerkOptions) {
 		})
 		.as('plugin');
 }
+
+// Function to log a colored warning
+function logWarning (message: string) {
+  console.warn(`\x1b[33m⚠️ elysia-clerk: ${message}\x1b[0m`);
+};
