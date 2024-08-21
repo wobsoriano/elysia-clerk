@@ -12,7 +12,7 @@ import { clerkPlugin } from 'elysia-clerk'
 
 new Elysia()
   .use(clerkPlugin())
-  .get('/private', async ({ clerk, auth, set }) => {
+  .get('/api/me', async ({ clerk, auth, set }) => {
     if (!auth?.userId) {
       set.status = 403
       return 'Unauthorized'
