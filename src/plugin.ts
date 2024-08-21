@@ -58,6 +58,6 @@ export function clerkPlugin(options?: ClerkOptions) {
 }
 
 // Function to log a colored warning
-function logWarning (message: string) {
-  console.warn(`\x1b[33m⚠️ elysia-clerk: ${message}\x1b[0m`);
-};
+function logWarning(message: string) {
+	console.warn(`\x1b[33m⚠️ elysia-clerk: ${message}\x1b[0m`);
+}
