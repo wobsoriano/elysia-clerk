@@ -8,7 +8,7 @@ Elysia plugin to integrate with [Clerk](https://clerk.com/).
 ## Install
 
 ```bash
-bun install elysia-clerk
+bun add elysia-clerk
 ```
 
 ## Usage
@@ -28,12 +28,12 @@ import { clerkPlugin } from 'elysia-clerk'
 
 new Elysia()
   .use(clerkPlugin())
-  .get('/private', async ({ clerk, store, set }) => {
+  .get('/private', async ({ clerk, auth, set }) => {
     /**
-     * Access the auth state in the store context.
+     * Access the auth state in the context.
      * See the AuthObject here https://clerk.com/docs/references/nextjs/auth-object#auth-object
      */
-    if (!store.auth?.userId) {
+    if (!auth?.userId) {
       set.status = 403
       return 'Unauthorized'
     }
@@ -42,7 +42,7 @@ new Elysia()
      * For other resource operations, you can use the clerk client from the context.
      * See more examples here https://clerk.com/docs/references/backend/overview
      */
-    const user = await clerk.users.getUser(store.auth.userId)
+    const user = await clerk.users.getUser(auth.userId)
 
     return { user }
   })
@@ -57,14 +57,14 @@ import { clerkPlugin } from 'elysia-clerk'
 
 const privateRoutes = new Elysia({ prefix: '/api' })
   .use(clerkPlugin())
-  .get('/user', async ({ clerk, store, set }) => {
+  .get('/user', async ({ clerk, auth, set }) => {
 
-    if (!store.auth?.userId) {
+    if (!auth?.userId) {
       set.status = 403
       return 'Unauthorized'
     }
 
-    const user = await clerk.users.getUser(store.auth.userId)
+    const user = await clerk.users.getUser(auth.userId)
 
     return { user }
   })

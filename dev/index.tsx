@@ -9,27 +9,17 @@ const contents = await file.text()
 const appFile = Bun.file(`${import.meta.dir}/app.js`)
 const appContents = await appFile.text()
 
-const subset = new Elysia({ prefix: '/api' })
-  .use(clerkPlugin({}))
-  .get('/auth', async (context) => {
-    return context.store.auth
+export const app = new Elysia()
+  .onError(({ code, error }) => {
+    console.error(code, error)
   })
-
-const app = new Elysia()
+  .use(clerkPlugin())
   .use(html())
-  .use(clerkPlugin({}))
-  // .get('/', ({ html }) => html(contents))
-  .get('/', (context) => {
-    return new Response(contents, {
-      headers: {
-        'content-type': 'text/html',
-      },
-    })
-  })
+  .get('/', () => contents)
   .get('/app.js', () => {
     return appContents.replace('REPLACE_ME', process.env.CLERK_PUBLISHABLE_KEY as string)
   })
-  .get('/private', async ({ clerk, store, set }) => {
+  .get('/private', async ({ clerk, set, store, auth }) => {
     if (!store.auth?.userId) {
       set.status = 403
       return 'Unauthorized'
@@ -40,7 +30,6 @@ const app = new Elysia()
     return { user }
   })
   .use(innerRoute)
-  // .use(subset)
   .listen(3000)
 
 console.log(

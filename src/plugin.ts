@@ -1,5 +1,5 @@
 import type { ClerkOptions } from '@clerk/backend';
-import { AuthObject } from '@clerk/backend';
+import type { AuthObject } from '@clerk/backend';
 import { AuthStatus } from '@clerk/backend/internal';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
@@ -9,15 +9,17 @@ export function clerkPlugin(options?: ClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
 	const publishableKey = options?.publishableKey ?? constants.PUBLISHABLE_KEY;
 
-	const app = new Elysia({
+	return new Elysia({
 		name: 'clerk',
 		seed: options,
-	});
-
-	return app
+	})
 		.decorate('clerk', clerkClient)
 		.state('auth', null as null | AuthObject)
-		.onBeforeHandle({ as: 'scoped' }, async ({ request, set, store }) => {
+		.resolve(async ({ request, set, store }) => {
+			logWarning(
+				'Accessing auth from store will be removed in version 0.6.0. Use the auth property from the context instead.',
+			);
+
 			const requestState = await clerkClient.authenticateRequest(request, {
 				...options,
 				secretKey,
@@ -28,19 +30,34 @@ export function clerkPlugin(options?: ClerkOptions) {
 				set.headers[key] = value;
 			});
 
-			const hasLocationHeader = requestState.headers.get(
+			const auth = requestState.toAuth();
+
+			const locationHeader = requestState.headers.get(
 				constants.Headers.Location,
 			);
-			if (hasLocationHeader) {
+			if (locationHeader) {
 				// Trigger a handshake redirect
 				set.status = 307;
-				return;
+				return {
+					auth,
+				};
 			}
 
 			if (requestState.status === AuthStatus.Handshake) {
 				throw new Error('Clerk: handshake status without redirect');
 			}
 
-			store.auth = requestState.toAuth();
-		});
+			// Remove this in 0.6.0
+			store.auth = auth;
+
+			return {
+				auth,
+			};
+		})
+		.as('plugin');
+}
+
+// Function to log a colored warning
+function logWarning(message: string) {
+	console.warn(`\x1b[33m⚠️ elysia-clerk: ${message}\x1b[0m`);
 }
