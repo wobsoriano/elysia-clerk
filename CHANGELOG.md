@@ -1,5 +1,15 @@
 # elysia-clerk
 
+## 0.6.0
+
+### Minor Changes
+
+- 9c3b71c: Remove deprecated auth store
+
+### Patch Changes
+
+- 53e7571: Bump @clerk/backend to 1.9.0"
+
 ## 0.5.5
 
 ### Patch Changes
