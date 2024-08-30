@@ -1,5 +1,4 @@
 import type { ClerkOptions } from '@clerk/backend';
-import type { AuthObject } from '@clerk/backend';
 import { AuthStatus } from '@clerk/backend/internal';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
@@ -10,16 +9,11 @@ export function clerkPlugin(options?: ClerkOptions) {
 	const publishableKey = options?.publishableKey ?? constants.PUBLISHABLE_KEY;
 
 	return new Elysia({
-		name: 'clerk',
+		name: 'elysia-clerk',
 		seed: options,
 	})
 		.decorate('clerk', clerkClient)
-		.state('auth', null as null | AuthObject)
-		.resolve(async ({ request, set, store }) => {
-			logWarning(
-				'Accessing auth from store will be removed in version 0.6.0. Use the auth property from the context instead.',
-			);
-
+		.resolve(async ({ request, set }) => {
 			const requestState = await clerkClient.authenticateRequest(request, {
 				...options,
 				secretKey,
@@ -47,17 +41,9 @@ export function clerkPlugin(options?: ClerkOptions) {
 				throw new Error('Clerk: handshake status without redirect');
 			}
 
-			// Remove this in 0.6.0
-			store.auth = auth;
-
 			return {
 				auth,
 			};
 		})
 		.as('plugin');
-}
-
-// Function to log a colored warning
-function logWarning(message: string) {
-	console.warn(`\x1b[33m⚠️ elysia-clerk: ${message}\x1b[0m`);
 }
