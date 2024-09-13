@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 0.6.1
+
+### Patch Changes
+
+- 098c11a: Bump @clerk/backend to 1.11.1
+
 ## 0.6.0
 
 ### Minor Changes
