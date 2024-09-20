@@ -96,7 +96,7 @@ describe('plugin(options)', () => {
 		});
 
 		const app = new Elysia()
-			.use(clerkPlugin())
+			.use(clerkPlugin({ enableHandshake: true }))
 			.get('/', (c) => ({ auth: c.auth }));
 
 		const response = await app.handle(
