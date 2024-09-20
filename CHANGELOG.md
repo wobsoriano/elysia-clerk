@@ -1,5 +1,16 @@
 # elysia-clerk
 
+## 0.7.0
+
+### Minor Changes
+
+- a33d88d: Disable Clerk handshake by default
+
+### Patch Changes
+
+- af95933: Bump `@clerk/backend` to 1.13.2
+- dccd3be: Add `@clerk/shared` to dependencies
+
 ## 0.6.1
 
 ### Patch Changes
