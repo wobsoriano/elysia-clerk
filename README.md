@@ -28,14 +28,13 @@ import { clerkPlugin } from 'elysia-clerk'
 
 new Elysia()
   .use(clerkPlugin())
-  .get('/private', async ({ clerk, auth, set }) => {
+  .get('/private', async ({ clerk, auth, error }) => {
     /**
      * Access the auth state in the context.
      * See the AuthObject here https://clerk.com/docs/references/nextjs/auth-object#auth-object
      */
     if (!auth?.userId) {
-      set.status = 403
-      return 'Unauthorized'
+      return error(401)
     }
 
     /**
@@ -57,11 +56,10 @@ import { clerkPlugin } from 'elysia-clerk'
 
 const privateRoutes = new Elysia({ prefix: '/api' })
   .use(clerkPlugin())
-  .get('/user', async ({ clerk, auth, set }) => {
+  .get('/user', async ({ clerk, auth, error }) => {
 
     if (!auth?.userId) {
-      set.status = 403
-      return 'Unauthorized'
+      return error(401)
     }
 
     const user = await clerk.users.getUser(auth.userId)
