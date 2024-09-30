@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 0.8.0
+
+### Minor Changes
+
+- eaa13f8: Make `enableHandshake` value default to `true` as header based authorization does not support handshake by default anyway.
+
 ## 0.7.0
 
 ### Minor Changes
