@@ -12,6 +12,8 @@ export type ElysiaClerkOptions = ClerkOptions & {
 	 *
 	 * This is useful for server-rendered fullstack applications to handle
 	 * expired JWTs securely and maintain session continuity.
+	 *
+	 * @default true
 	 */
 	enableHandshake?: boolean;
 };
@@ -19,7 +21,7 @@ export type ElysiaClerkOptions = ClerkOptions & {
 export function clerkPlugin(options?: ElysiaClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
 	const publishableKey = options?.publishableKey ?? constants.PUBLISHABLE_KEY;
-	const enableHandshake = options?.enableHandshake ?? false;
+	const enableHandshake = options?.enableHandshake ?? true;
 
 	return new Elysia({
 		name: 'elysia-clerk',
