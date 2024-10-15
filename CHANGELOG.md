@@ -1,5 +1,12 @@
 # elysia-clerk
 
+## 0.8.1
+
+### Patch Changes
+
+- fdc514b: Bump `@clerk/shared` to 2.9.1
+- fdc514b: Bump `@clerk/backend` to 1.13.10
+
 ## 0.8.0
 
 ### Minor Changes
