@@ -1,5 +1,5 @@
 import type { BuildConfig } from 'bun'
-import { name, version } from './package.json';
+import { name, version } from './package.json'
 import dts from 'bun-plugin-dts'
 
 const defaultBuildConfig: BuildConfig = {
@@ -14,25 +14,28 @@ const defaultBuildConfig: BuildConfig = {
   },
 }
 
-console.log('Building mjs...')
-const mjsBuild = await Bun.build({
-  ...defaultBuildConfig,
-  plugins: [dts()],
-  format: 'esm',
-  naming: "[dir]/[name].mjs",
-})
+console.log('Building packages...')
 
-if (mjsBuild.success) {
-  console.log('mjs build successful')
-}
+const [mjsBuild, cjsBuild] = await Promise.all([
+  // ESM build
+  Bun.build({
+    ...defaultBuildConfig,
+    plugins: [dts()],
+    format: 'esm',
+    naming: "[dir]/[name].mjs",
+  }),
 
-console.log('Building cjs...')
-const cjsBuild = await Bun.build({
-  ...defaultBuildConfig,
-  format: 'cjs',
-  naming: "[dir]/[name].js",
-})
+  // CJS build
+  Bun.build({
+    ...defaultBuildConfig,
+    format: 'cjs',
+    naming: "[dir]/[name].js",
+  })
+])
 
-if (cjsBuild.success) {
-  console.log('cjs build successful')
+if (mjsBuild.success && cjsBuild.success) {
+  console.log('All builds completed successfully!')
+} else {
+  console.error('Build failed')
+  process.exit(1)
 }
