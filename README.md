@@ -39,7 +39,7 @@ new Elysia()
 
     /**
      * For other resource operations, you can use the clerk client from the context.
-     * See more examples here https://clerk.com/docs/references/backend/overview
+     * See what other utilities Clerk exposes here https://clerk.com/docs/references/backend/overview
      */
     const user = await clerk.users.getUser(auth.userId)
 
