@@ -1,5 +1,6 @@
 {
   "name": "elysia-clerk",
+  "type": "module",
   "version": "0.8.3",
   "description": "Unofficial Clerk plugin for Elysia.",
   "author": "Robert Soriano <sorianorobertc@gmail.com>",
@@ -15,26 +16,19 @@
     "auth"
   ],
   "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      }
-    }
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "bun run --preload ./setup.ts --watch ./dev/index.tsx",
-    "build": "tsup src/index.ts --env.NODE_ENV production",
+    "build": "bun run build.ts",
     "prepublishOnly": "bun run build",
     "release": "changeset publish",
     "lint": "biome check src",
@@ -55,9 +49,9 @@
     "@changesets/cli": "^2.27.7",
     "@elysiajs/eden": "^1.1.2",
     "@elysiajs/html": "^1.1.0",
-    "@types/bun": "^1.1.6",
+    "@types/bun": "^1.1.12",
+    "bun-plugin-dts": "^0.3.0",
     "elysia": "^1.1.7",
-    "tsup": "^8.2.4",
     "typescript": "5.5.4"
   }
 }
