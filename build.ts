@@ -14,16 +14,25 @@ const defaultBuildConfig: BuildConfig = {
   },
 }
 
-await Promise.all([
-  Bun.build({
-    ...defaultBuildConfig,
-    plugins: [dts()],
-    format: 'esm',
-    naming: "[dir]/[name].mjs",
-  }),
-  Bun.build({
-    ...defaultBuildConfig,
-    format: 'cjs',
-    naming: "[dir]/[name].js",
-  })
-])
+console.log('Building mjs...')
+const mjsBuild = await Bun.build({
+  ...defaultBuildConfig,
+  plugins: [dts()],
+  format: 'esm',
+  naming: "[dir]/[name].mjs",
+})
+
+if (mjsBuild.success) {
+  console.log('mjs build successful')
+}
+
+console.log('Building cjs...')
+const cjsBuild = await Bun.build({
+  ...defaultBuildConfig,
+  format: 'cjs',
+  naming: "[dir]/[name].js",
+})
+
+if (cjsBuild.success) {
+  console.log('cjs build successful')
+}
