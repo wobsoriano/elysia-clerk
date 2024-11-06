@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 0.8.5
+
+### Patch Changes
+
+- d90eabb: Bump @clerk/backend to 1.15.7 and @clerk/shared to 2.11.5
+
 ## 0.8.4
 
 ### Patch Changes
