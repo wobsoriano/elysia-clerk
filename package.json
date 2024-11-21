@@ -11,8 +11,14 @@
   },
   "bugs": "https://github.com/wobsoriano/elysia-clerk/issues",
   "keywords": [
+    "clerk",
+    "typescript",
     "bun",
-    "auth"
+    "auth",
+    "authentication",
+    "passwordless",
+    "session",
+    "jwt"
   ],
   "exports": {
     "types": "./dist/index.d.ts",
