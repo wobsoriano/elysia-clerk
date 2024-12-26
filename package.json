@@ -1,6 +1,6 @@
 {
   "name": "elysia-clerk",
-  "version": "0.8.8",
+  "version": "0.9.0",
   "description": "Unofficial Clerk plugin for Elysia.",
   "author": "Robert Soriano <sorianorobertc@gmail.com>",
   "license": "MIT",
@@ -43,7 +43,7 @@
     "test:watch": "bun test --watch"
   },
   "peerDependencies": {
-    "elysia": "^1.0.0"
+    "elysia": "^1.2.0"
   },
   "dependencies": {
     "@clerk/backend": "^1.21.0",
@@ -54,9 +54,9 @@
     "@changesets/cli": "^2.27.10",
     "@elysiajs/eden": "^1.1.3",
     "@elysiajs/html": "^1.1.1",
-    "@types/bun": "^1.1.13",
+    "@types/bun": "^1.1.14",
     "bun-plugin-dts": "^0.3.0",
-    "elysia": "^1.1.25",
+    "elysia": "^1.2.0",
     "typescript": "5.5.4"
   }
 }
