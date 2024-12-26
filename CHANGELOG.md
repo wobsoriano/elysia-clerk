@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 0.9.0
+
+### Minor Changes
+
+- 910616c: Support Elysia 1.2.x
+
 ## 0.8.8
 
 ### Patch Changes
