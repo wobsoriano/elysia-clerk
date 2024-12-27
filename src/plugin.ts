@@ -47,5 +47,32 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 				auth,
 			};
 		})
+		.macro({
+			currentUser: (enabled: true) => ({
+				resolve: async ({ request }) => {
+					if (!enabled) {
+						return;
+					}
+
+					const requestState = await clerkClient.authenticateRequest(request, {
+						...options,
+						secretKey,
+						publishableKey,
+					});
+
+					const auth = requestState.toAuth();
+
+					if (!auth?.userId) {
+						return;
+					}
+
+					const currentUser = await clerkClient.users.getUser(auth.userId);
+
+					return {
+						currentUser,
+					};
+				},
+			}),
+		})
 		.as('plugin');
 }
