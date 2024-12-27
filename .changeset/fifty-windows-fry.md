@@ -2,7 +2,7 @@
 "elysia-clerk": minor
 ---
 
-Add `currentUser` macro for getting the current authenticated user.
+Add `currentUser` macro to get the [Backend User](https://clerk.com/docs/references/backend/types/backend-user) object of the currently active user.
 
 Usage:
 
