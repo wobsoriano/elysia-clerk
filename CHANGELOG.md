@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 0.10.1
+
+### Patch Changes
+
+- 6027a2b: Remove macro feature
+
 ## 0.10.0
 
 ### Minor Changes
