@@ -9,7 +9,11 @@ Usage:
 ```ts
 new Elysia()
   .use(clerkPlugin())
-  .get('/currentUser', ({ currentUser, error }) => {
+  .get('/current-user', ({ currentUser, error }) => {
+    if (!currentUser) {
+      return error(401)
+    }
+
     return { currentUser }
   }, {
     currentUser: true
