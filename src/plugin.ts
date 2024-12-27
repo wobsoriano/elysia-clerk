@@ -63,7 +63,9 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 					const auth = requestState.toAuth();
 
 					if (!auth?.userId) {
-						return;
+						return {
+							currentUser: null,
+						};
 					}
 
 					const currentUser = await clerkClient.users.getUser(auth.userId);
