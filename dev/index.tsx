@@ -19,14 +19,16 @@ export const app = new Elysia()
   .get('/app.js', () => {
     return appContents.replace('REPLACE_ME', process.env.CLERK_PUBLISHABLE_KEY as string)
   })
-  .get('/private', async ({ set, currentUser }) => {
-    if (!currentUser) {
+  .get('/private', async ({ set, auth, clerk }) => {
+    if (!auth?.userId) {
       set.status = 403
       return 'Unauthorized'
     }
 
+    const user = await clerk.users.getUser(auth.userId)
+
     return {
-      user: currentUser
+      user
     }
   }, {
     currentUser: true
