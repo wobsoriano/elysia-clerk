@@ -75,6 +75,27 @@ new Elysia()
 
 To see the available options you can pass to the `clerkPlugin` function, see [`AuthenticateRequestOptions`](https://clerk.com/docs/references/backend/authenticate-request#authenticate-request-options).
 
+### Macros
+
+#### `currentUser`
+
+Add `currentUser` macro to get the [Backend User](https://clerk.com/docs/references/backend/types/backend-user) object of the currently active user.
+
+```ts
+new Elysia()
+  .use(clerkPlugin())
+  .get('/api/current-user', ({ currentUser, error }) => {
+    if (!currentUser) {
+      return error(401)
+    }
+
+    return { currentUser }
+  }, {
+    currentUser: true
+  })
+  .listen(3000)
+```
+
 ## License
 
 MIT
