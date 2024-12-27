@@ -10,18 +10,23 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
 	const publishableKey = options?.publishableKey ?? constants.PUBLISHABLE_KEY;
 
+	async function getRequestState(request: Request) {
+		const requestState = await clerkClient.authenticateRequest(request, {
+			...options,
+			secretKey,
+			publishableKey,
+		});
+
+		return requestState;
+	}
+
 	return new Elysia({
 		name: 'elysia-clerk',
 		seed: options,
 	})
 		.decorate('clerk', clerkClient)
 		.resolve(async ({ request, set }) => {
-			const requestState = await clerkClient.authenticateRequest(request, {
-				...options,
-				secretKey,
-				publishableKey,
-			});
-
+			const requestState = await getRequestState(request);
 			const auth = requestState.toAuth();
 
 			requestState.headers.forEach((value, key) => {
@@ -46,6 +51,30 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 			return {
 				auth,
 			};
+		})
+		.macro({
+			currentUser: (enabled: true) => ({
+				resolve: async ({ request }) => {
+					if (!enabled) {
+						return;
+					}
+
+					const requestState = await getRequestState(request);
+					const auth = requestState.toAuth();
+
+					if (!auth?.userId) {
+						return {
+							currentUser: null,
+						};
+					}
+
+					const currentUser = await clerkClient.users.getUser(auth.userId);
+
+					return {
+						currentUser,
+					};
+				},
+			}),
 		})
 		.as('plugin');
 }

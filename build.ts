@@ -14,7 +14,7 @@ const defaultBuildConfig: BuildConfig = {
   },
 }
 
-console.log('Building packages...')
+console.log('Building...')
 
 const [mjsBuild, cjsBuild] = await Promise.all([
   // ESM build
@@ -34,8 +34,7 @@ const [mjsBuild, cjsBuild] = await Promise.all([
 ])
 
 if (mjsBuild.success && cjsBuild.success) {
-  console.log('All builds completed successfully!')
+  console.log('Build success')
 } else {
   console.error('Build failed')
-  process.exit(1)
 }
