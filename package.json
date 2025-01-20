@@ -46,8 +46,8 @@
     "elysia": "^1.2.0"
   },
   "dependencies": {
-    "@clerk/backend": "^1.21.6",
-    "@clerk/shared": "^2.20.6"
+    "@clerk/backend": "^1.23.4",
+    "@clerk/shared": "^2.20.11"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
