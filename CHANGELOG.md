@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- cf1ff6b: Bump `@clerk/backend` to 1.23.1 and `@clerk/shared` to 2.20.18
+- cf1ff6b: Bump `@clerk/backend` to 1.23.11 and `@clerk/shared` to 2.20.18
 
 ## 0.9.2
 
