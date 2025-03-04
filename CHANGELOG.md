@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 0.9.6
+
+### Patch Changes
+
+- ccff9cc: Bump @clerk/shared from 2.22.0 to 3.0.0
+
 ## 0.9.5
 
 ### Patch Changes
