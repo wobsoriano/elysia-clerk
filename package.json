@@ -33,7 +33,7 @@
   ],
   "scripts": {
     "dev": "bun run --preload ./setup.ts --watch ./dev/index.tsx",
-    "build": "bun run build.ts",
+    "build": "bunup src/index.ts --format esm,cjs --dts",
     "prepublishOnly": "bun run build",
     "release": "changeset publish",
     "lint": "biome check src",
@@ -54,9 +54,9 @@
     "@changesets/cli": "^2.27.10",
     "@elysiajs/eden": "^1.2.0",
     "@elysiajs/html": "^1.2.0",
-    "@types/bun": "^1.1.14",
-    "bun-plugin-dts": "^0.3.0",
-    "elysia": "^1.2.8",
+    "@types/bun": "^1.2.5",
+    "bunup": "^0.1.32",
+    "elysia": "^1.2.25",
     "typescript": "5.5.4"
   }
 }
