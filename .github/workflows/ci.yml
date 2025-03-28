@@ -25,6 +25,9 @@ jobs:
       - name: Lint
         run: bun run lint
 
+      - name: Arethetypeswrong
+        run: bun run lint:attw
+
   test:
     runs-on: ${{ matrix.os }}
 
@@ -46,9 +49,6 @@ jobs:
 
       - name: Build
         run: bun run build
-
-      - name: Arethetypeswrong
-        run: bun run lint:attw
 
       - name: Test
         run: bun run test
