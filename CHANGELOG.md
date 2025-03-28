@@ -1,5 +1,13 @@
 # elysia-clerk
 
+## 0.9.8
+
+### Patch Changes
+
+- ad2a4ef: - Bump `"@clerk/backend` to 1.25.8
+  - Bump `"@clerk/shared` to 3.2.3
+  - Remove internal imports
+
 ## 0.9.7
 
 ### Patch Changes
