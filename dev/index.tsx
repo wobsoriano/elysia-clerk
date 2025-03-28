@@ -30,8 +30,6 @@ export const app = new Elysia()
     return {
       user
     }
-  }, {
-    currentUser: true
   })
   .use(innerRoute)
   .listen(3000)

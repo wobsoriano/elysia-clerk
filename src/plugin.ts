@@ -1,10 +1,11 @@
 import type { ClerkOptions } from '@clerk/backend';
-import { AuthStatus } from '@clerk/backend/internal';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
 
 export type ElysiaClerkOptions = ClerkOptions;
+
+const HandshakeStatus = 'handshake';
 
 export function clerkPlugin(options?: ElysiaClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
@@ -38,7 +39,7 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 				};
 			}
 
-			if (requestState.status === AuthStatus.Handshake) {
+			if (requestState.status === HandshakeStatus) {
 				throw new Error('Clerk: handshake status without redirect');
 			}
 

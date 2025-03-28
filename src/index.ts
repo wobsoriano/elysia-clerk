@@ -1,4 +1,4 @@
 export * from '@clerk/backend';
 
-export { clerkPlugin } from './plugin';
+export { clerkPlugin, type ElysiaClerkOptions } from './plugin';
 export { clerkClient } from './clerkClient';
