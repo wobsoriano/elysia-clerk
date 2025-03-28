@@ -65,6 +65,7 @@
     "@elysiajs/html": "^1.2.0",
     "@types/bun": "^1.2.5",
     "elysia": "^1.2.25",
+    "tsup": "^8.4.0",
     "typescript": "5.5.4"
   }
 }
