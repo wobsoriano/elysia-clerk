@@ -54,8 +54,8 @@
     "elysia": "^1.2.0"
   },
   "dependencies": {
-    "@clerk/backend": "^1.25.7",
-    "@clerk/shared": "^3.2.2"
+    "@clerk/backend": "^1.25.8",
+    "@clerk/shared": "^3.2.3"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.17.4",
