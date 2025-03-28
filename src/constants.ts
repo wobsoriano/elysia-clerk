@@ -1,4 +1,3 @@
-import { constants } from '@clerk/backend/internal';
 import { apiUrlFromPublishableKey } from '@clerk/shared/apiUrlFromPublishableKey';
 import { isTruthy } from '@clerk/shared/underscore';
 
@@ -17,5 +16,3 @@ export const TELEMETRY_DISABLED = isTruthy(
 	process.env.CLERK_TELEMETRY_DISABLED,
 );
 export const TELEMETRY_DEBUG = isTruthy(process.env.CLERK_TELEMETRY_DEBUG);
-
-export const { Cookies, Headers } = constants;

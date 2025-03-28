@@ -21,9 +21,16 @@
     "jwt"
   ],
   "exports": {
-    "types": "./dist/index.d.ts",
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.js"
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -33,10 +40,11 @@
   ],
   "scripts": {
     "dev": "bun run --preload ./setup.ts --watch ./dev/index.tsx",
-    "build": "bunup src/index.ts --format esm,cjs --dts",
+    "build": "tsup",
     "prepublishOnly": "bun run build",
     "release": "changeset publish",
     "lint": "biome check src",
+    "lint:attw": "attw --pack .",
     "lint:fix": "biome check --write src",
     "format": "biome format src --write",
     "test": "bun test --preload ./setup.ts",
@@ -46,17 +54,18 @@
     "elysia": "^1.2.0"
   },
   "dependencies": {
-    "@clerk/backend": "^1.25.7",
-    "@clerk/shared": "^3.2.2"
+    "@clerk/backend": "^1.25.8",
+    "@clerk/shared": "^3.2.3"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.4",
     "@biomejs/biome": "1.9.4",
     "@changesets/cli": "^2.27.10",
     "@elysiajs/eden": "^1.2.0",
     "@elysiajs/html": "^1.2.0",
     "@types/bun": "^1.2.5",
-    "bunup": "^0.1.32",
     "elysia": "^1.2.25",
+    "tsup": "^8.4.0",
     "typescript": "5.5.4"
   }
 }

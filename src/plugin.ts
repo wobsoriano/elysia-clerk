@@ -6,6 +6,7 @@ import * as constants from './constants';
 export type ElysiaClerkOptions = ClerkOptions;
 
 const HandshakeStatus = 'handshake';
+const LocationHeader = 'location';
 
 export function clerkPlugin(options?: ElysiaClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
@@ -28,9 +29,7 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 				set.headers[key] = value;
 			});
 
-			const locationHeader = requestState.headers.get(
-				constants.Headers.Location,
-			);
+			const locationHeader = requestState.headers.get(LocationHeader);
 			if (locationHeader) {
 				// Trigger a handshake redirect
 				set.status = 307;
