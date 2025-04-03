@@ -28,7 +28,7 @@ import { clerkPlugin } from 'elysia-clerk'
 
 new Elysia()
   .use(clerkPlugin())
-  .get('/private', async ({ clerk, auth, error }) => {
+  .get('/private', async ({ clerk: clerkClient, auth, error }) => {
     /**
      * Access the auth state in the context.
      * See the AuthObject here https://clerk.com/docs/references/nextjs/auth-object#auth-object
@@ -41,35 +41,10 @@ new Elysia()
      * For other resource operations, you can use the clerk client from the context.
      * See what other utilities Clerk exposes here https://clerk.com/docs/references/backend/overview
      */
-    const user = await clerk.users.getUser(auth.userId)
+    const user = await clerkClient.users.getUser(auth.userId)
 
     return { user }
   })
-  .listen(3000)
-```
-
-Instead of using Clerk globally, you can use Clerk for a subset of routes via Elysia plugins:
-
-```ts
-import { Elysia } from 'elysia'
-import { clerkPlugin } from 'elysia-clerk'
-
-const privateRoutes = new Elysia({ prefix: '/api' })
-  .use(clerkPlugin())
-  .get('/user', async ({ clerk, auth, error }) => {
-
-    if (!auth?.userId) {
-      return error(401)
-    }
-
-    const user = await clerk.users.getUser(auth.userId)
-
-    return { user }
-  })
-
-new Elysia()
-  .use(privateRoutes)
-  .get('/', () => 'Hello world!')
   .listen(3000)
 ```
 
