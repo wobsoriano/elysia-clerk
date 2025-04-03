@@ -1,8 +1,8 @@
 import type { ClerkOptions } from '@clerk/backend';
+import { deprecated } from '@clerk/shared/deprecated';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
-import { deprecated } from '@clerk/shared/deprecated';
 
 export type ElysiaClerkOptions = ClerkOptions;
 
