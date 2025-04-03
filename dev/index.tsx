@@ -20,19 +20,20 @@ export const app = new Elysia()
     return appContents.replace('REPLACE_ME', process.env.CLERK_PUBLISHABLE_KEY as string)
   })
   .get('/private', async ({ set, auth, clerk }) => {
-    if (!auth?.userId) {
+    const authObj = auth()
+    if (!authObj?.userId) {
       set.status = 403
       return 'Unauthorized'
     }
 
-    const user = await clerk.users.getUser(auth.userId)
+    const user = await clerk.users.getUser(authObj.userId)
 
     return {
       user
     }
   })
   .use(innerRoute)
-  .listen(3000)
+  .listen(8080)
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,

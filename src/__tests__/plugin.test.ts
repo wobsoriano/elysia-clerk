@@ -16,7 +16,7 @@ describe('plugin(options)', () => {
 
 		const app = new Elysia()
 			.use(clerkPlugin())
-			.get('/', (c) => ({ auth: c.auth }));
+			.get('/', (c) => ({ auth: c.auth() }));
 
 		const response = await app.handle(
 			new Request('http://localhost/', {
@@ -52,7 +52,7 @@ describe('plugin(options)', () => {
 
 		const app = new Elysia()
 			.use(clerkPlugin())
-			.get('/', (c) => ({ auth: c.auth }));
+			.get('/', (c) => ({ auth: c.auth() }));
 
 		const response = await app.handle(
 			new Request('http://localhost/', {
@@ -97,7 +97,7 @@ describe('plugin(options)', () => {
 
 		const app = new Elysia()
 			.use(clerkPlugin())
-			.get('/', (c) => ({ auth: c.auth }));
+			.get('/', (c) => ({ auth: c.auth() }));
 
 		const response = await app.handle(
 			new Request('http://localhost/', {
