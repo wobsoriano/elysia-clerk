@@ -2,6 +2,7 @@ import type { ClerkOptions } from '@clerk/backend';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
+import { deprecated } from '@clerk/shared/deprecated';
 
 export type ElysiaClerkOptions = ClerkOptions;
 
@@ -23,7 +24,20 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 				secretKey,
 				publishableKey,
 			});
-			const auth = requestState.toAuth();
+
+			const authObject = requestState.toAuth();
+			const authHandler = () => authObject;
+
+			const auth = new Proxy(Object.assign(authHandler, authObject), {
+				get(target, prop: string, receiver) {
+					deprecated(
+						'context.auth',
+						'Use `context.auth()` as a function instead.',
+					);
+
+					return Reflect.get(target, prop, receiver);
+				},
+			});
 
 			requestState.headers.forEach((value, key) => {
 				set.headers[key] = value;
