@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 0.9.9
+
+### Patch Changes
+
+- 3ec16f7: Deprecate `context.auth` in favor of `context.auth()` as function
+
 ## 0.9.8
 
 ### Patch Changes
