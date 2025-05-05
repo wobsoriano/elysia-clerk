@@ -1,12 +1,12 @@
 import type { ClerkOptions } from '@clerk/backend';
-import { deprecated } from '@clerk/shared/deprecated';
-import { Elysia } from 'elysia';
-import { clerkClient } from './clerkClient';
-import * as constants from './constants';
 import type {
 	SignedInAuthObject,
 	SignedOutAuthObject,
 } from '@clerk/backend/internal';
+import { deprecated } from '@clerk/shared/deprecated';
+import { Elysia } from 'elysia';
+import { clerkClient } from './clerkClient';
+import * as constants from './constants';
 
 export type ElysiaClerkOptions = ClerkOptions;
 
