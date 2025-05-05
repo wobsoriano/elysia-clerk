@@ -3,14 +3,17 @@ import { deprecated } from '@clerk/shared/deprecated';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
-import type { SignedInAuthObject, SignedOutAuthObject } from '@clerk/backend/internal';
+import type {
+	SignedInAuthObject,
+	SignedOutAuthObject,
+} from '@clerk/backend/internal';
 
 export type ElysiaClerkOptions = ClerkOptions;
 
 const HandshakeStatus = 'handshake';
 const LocationHeader = 'location';
 
-type AuthObject = SignedInAuthObject | SignedOutAuthObject
+type AuthObject = SignedInAuthObject | SignedOutAuthObject;
 
 export function clerkPlugin(options?: ElysiaClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
