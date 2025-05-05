@@ -40,7 +40,7 @@
   ],
   "scripts": {
     "dev": "bun run --preload ./setup.ts --watch ./dev/index.tsx",
-    "build": "tsup",
+    "build": "tsdown",
     "prepublishOnly": "bun run build",
     "release": "changeset publish",
     "lint": "biome check src",
@@ -65,7 +65,7 @@
     "@elysiajs/html": "^1.2.0",
     "@types/bun": "^1.2.5",
     "elysia": "^1.2.25",
-    "tsup": "^8.4.0",
+    "tsdown": "^0.11.0-beta.5",
     "typescript": "5.5.4"
   }
 }
