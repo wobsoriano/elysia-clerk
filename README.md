@@ -35,7 +35,7 @@ new Elysia()
      * Access the auth state in the context.
      * See the AuthObject here https://clerk.com/docs/references/nextjs/auth-object#auth-object
      */
-    if (!auth?.userId) {
+    if (!auth.userId) {
       return ctx.error(401)
     }
 
