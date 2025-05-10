@@ -1,8 +1,4 @@
 import type { ClerkOptions } from '@clerk/backend';
-import type {
-	SignedInAuthObject,
-	SignedOutAuthObject,
-} from '@clerk/backend/internal';
 import { deprecated } from '@clerk/shared/deprecated';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
@@ -15,8 +11,6 @@ export type ElysiaClerkOptions = Omit<ClerkOptions, "publishableKey" | "secretKe
 
 const HandshakeStatus = 'handshake';
 const LocationHeader = 'location';
-
-type AuthObject = SignedInAuthObject | SignedOutAuthObject;
 
 export function clerkPlugin(options?: ElysiaClerkOptions) {
 	const rawSecretKey = options?.secretKey ?? constants.SECRET_KEY;
@@ -36,8 +30,7 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 				publishableKey,
 			});
 
-			// Asserting to fix error TS2742 when building
-			const authObject = requestState.toAuth() as AuthObject;
+			const authObject = requestState.toAuth();
 			const authHandler = () => authObject;
 
 			const auth = new Proxy(Object.assign(authHandler, authObject), {
