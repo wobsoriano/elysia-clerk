@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup'
+import { defineConfig } from 'tsdown'
 import pkg from './package.json'
 
 export default defineConfig(() => {
