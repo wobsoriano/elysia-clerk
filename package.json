@@ -1,15 +1,15 @@
 {
-  "name": "elysia-clerk",
-  "version": "0.9.9",
+  "name": "@tkoehlerlg/elysia-clerk",
+  "version": "0.9.26",
   "description": "Unofficial Clerk plugin for Elysia.",
-  "author": "Robert Soriano <sorianorobertc@gmail.com>",
+  "author": "Torben Koehler <torbenkoehler@pm.me>",
   "license": "MIT",
-  "homepage": "https://github.com/wobsoriano/elysia-clerk#readme",
+  "homepage": "https://github.com/tkoehlerlg/elysia-clerk#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wobsoriano/elysia-clerk.git"
+    "url": "git+https://github.com/tkoehlerlg/elysia-clerk.git"
   },
-  "bugs": "https://github.com/wobsoriano/elysia-clerk/issues",
+  "bugs": "https://github.com/tkoehlerlg/elysia-clerk/issues",
   "keywords": [
     "clerk",
     "typescript",
