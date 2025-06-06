@@ -4,12 +4,6 @@
 
 ### Minor Changes
 
-- 10f4cc5: Rerelease
-
-## 0.10.0
-
-### Minor Changes
-
 - 1133c3a: Bump `@clerk/backend` to 2.0.0 and prepare for machine auth changes.
 
 ## 0.9.10
