@@ -1,19 +1,19 @@
-import type { ClerkOptions } from '@clerk/backend';
 import type {
+  AuthenticateRequestOptions,
 	SignedInAuthObject,
 	SignedOutAuthObject,
 } from '@clerk/backend/internal';
-import { deprecated } from '@clerk/shared/deprecated';
+import type { PendingSessionOptions } from '@clerk/types';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
 
-export type ElysiaClerkOptions = ClerkOptions;
+export type ElysiaClerkOptions = Omit<AuthenticateRequestOptions, 'acceptsToken'>;
 
 const HandshakeStatus = 'handshake';
 const LocationHeader = 'location';
 
-type AuthObject = SignedInAuthObject | SignedOutAuthObject;
+type SessionAuthObject = SignedInAuthObject | SignedOutAuthObject;
 
 export function clerkPlugin(options?: ElysiaClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
@@ -31,20 +31,7 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 				publishableKey,
 			});
 
-			// Asserting to fix error TS2742 when building
-			const authObject = requestState.toAuth() as AuthObject;
-			const authHandler = () => authObject;
-
-			const auth = new Proxy(Object.assign(authHandler, authObject), {
-				get(target, prop: string, receiver) {
-					deprecated(
-						'context.auth',
-						'Use `context.auth()` as a function instead.',
-					);
-
-					return Reflect.get(target, prop, receiver);
-				},
-			});
+			const auth = (options?: PendingSessionOptions) => requestState.toAuth(options) as SessionAuthObject;
 
 			requestState.headers.forEach((value, key) => {
 				set.headers[key] = value;
