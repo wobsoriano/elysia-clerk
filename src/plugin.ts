@@ -2,6 +2,7 @@ import type {
 	AuthenticateRequestOptions,
 	SignedInAuthObject,
 	SignedOutAuthObject,
+	TokenType,
 } from '@clerk/backend/internal';
 import type { PendingSessionOptions } from '@clerk/types';
 import { Elysia } from 'elysia';
@@ -32,7 +33,7 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 				...options,
 				secretKey,
 				publishableKey,
-				acceptsToken: 'session_token',
+				acceptsToken: TokenType.SessionToken,
 			});
 
 			const auth = (options?: PendingSessionOptions) =>
