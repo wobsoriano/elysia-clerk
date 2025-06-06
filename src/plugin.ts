@@ -32,6 +32,7 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 				...options,
 				secretKey,
 				publishableKey,
+				acceptsToken: 'session_token',
 			});
 
 			const auth = (options?: PendingSessionOptions) =>
