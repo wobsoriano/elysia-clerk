@@ -3,7 +3,7 @@ import pkg from './package.json'
 
 export default defineConfig(() => {
   return {
-    entry: ['src/index.ts'],
+    entry: ['src/index.ts', 'src/webhooks.ts'],
     format: ['cjs', 'esm'],
     clean: true,
     minify: false,
