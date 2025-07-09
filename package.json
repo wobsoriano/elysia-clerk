@@ -1,6 +1,6 @@
 {
   "name": "elysia-clerk",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Unofficial Clerk plugin for Elysia.",
   "author": "Robert Soriano <sorianorobertc@gmail.com>",
   "license": "MIT",
@@ -32,14 +32,14 @@
       }
     },
     "./webhooks": {
-        "import": {
-          "types": "./dist/webhooks.d.mts",
-          "default": "./dist/webhooks.mjs"
-        },
-        "require": {
-          "types": "./dist/webhooks.d.ts",
-          "default": "./dist/webhooks.js"
-        }
+      "import": {
+        "types": "./dist/webhooks.d.mts",
+        "default": "./dist/webhooks.mjs"
+      },
+      "require": {
+        "types": "./dist/webhooks.d.ts",
+        "default": "./dist/webhooks.js"
+      }
     }
   },
   "main": "./dist/index.js",
