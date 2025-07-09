@@ -1,9 +1,9 @@
+import type { ClerkOptions } from '@clerk/backend';
 import type {
 	SignedInAuthObject,
 	SignedOutAuthObject,
 } from '@clerk/backend/internal';
 import { TokenType } from '@clerk/backend/internal';
-import type { ClerkOptions } from '@clerk/backend';
 import type { PendingSessionOptions } from '@clerk/types';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
