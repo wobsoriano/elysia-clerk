@@ -1,8 +1,4 @@
-import type { ClerkOptions } from '@clerk/backend';
-import type {
-	SignedInAuthObject,
-	SignedOutAuthObject,
-} from '@clerk/backend/internal';
+import type { ClerkOptions, SessionAuthObject } from '@clerk/backend';
 import { TokenType } from '@clerk/backend/internal';
 import type { PendingSessionOptions } from '@clerk/types';
 import { Elysia } from 'elysia';
@@ -13,8 +9,6 @@ export type ElysiaClerkOptions = ClerkOptions;
 
 const HandshakeStatus = 'handshake';
 const LocationHeader = 'location';
-
-type SessionAuthObject = SignedInAuthObject | SignedOutAuthObject;
 
 export function clerkPlugin(options?: ClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
