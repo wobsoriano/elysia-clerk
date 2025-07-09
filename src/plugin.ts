@@ -1,5 +1,4 @@
 import type {
-	AuthenticateRequestOptions,
 	SignedInAuthObject,
 	SignedOutAuthObject,
 } from '@clerk/backend/internal';
