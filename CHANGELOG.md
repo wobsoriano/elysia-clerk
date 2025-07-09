@@ -1,5 +1,32 @@
 # elysia-clerk
 
+## 0.12.0
+
+### Minor Changes
+
+- 3da6f14: Re-export webhook verification helper
+
+  Usage:
+
+  _Required_: Set your `CLERK_WEBHOOK_SIGNING_SECRET` environment variable to protect your webhook signing secret. It is automatically read by `verifyWebhook()`.
+
+  ```ts
+  import { clerkPlugin } from "elysia-clerk";
+  import { verifyWebhook } from "elysia-clerk/webhooks";
+
+  new Elysia()
+    .use(clerkPlugin())
+    .get("/webhook", ({ request }) => {
+      const result = await verifyWebhook(request);
+      // do something with the result
+    })
+    .listen(3000);
+  ```
+
+### Patch Changes
+
+- be91dec: Bump `@clerk/backend` to 2.4.1 and `@clerk/shared` to 3.11.0
+
 ## 0.11.0
 
 ### Minor Changes
