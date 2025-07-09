@@ -56,5 +56,5 @@ export function clerkPlugin(options?: ClerkOptions) {
       return {
         auth,
       };
-    });
+    }).as('scoped');
 }
