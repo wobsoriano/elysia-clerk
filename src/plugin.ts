@@ -1,16 +1,16 @@
-import type { ClerkOptions, SessionAuthObject } from '@clerk/backend';
-import { TokenType } from '@clerk/backend/internal';
+import type { SessionAuthObject } from '@clerk/backend';
+import { TokenType, type AuthenticateRequestOptions } from '@clerk/backend/internal';
 import type { PendingSessionOptions } from '@clerk/types';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
 
-export type ElysiaClerkOptions = ClerkOptions;
+export type ElysiaClerkOptions = Omit<AuthenticateRequestOptions, 'machineSecretKey' | 'acceptsToken'>;
 
 const HandshakeStatus = 'handshake';
 const LocationHeader = 'location';
 
-export function clerkPlugin(options?: ClerkOptions) {
+export function clerkPlugin(options?: ElysiaClerkOptions) {
 	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
 	const publishableKey = options?.publishableKey ?? constants.PUBLISHABLE_KEY;
 
