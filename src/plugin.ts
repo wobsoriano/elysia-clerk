@@ -1,11 +1,17 @@
 import type { SessionAuthObject } from '@clerk/backend';
-import { TokenType, type AuthenticateRequestOptions } from '@clerk/backend/internal';
+import {
+	type AuthenticateRequestOptions,
+	TokenType,
+} from '@clerk/backend/internal';
 import type { PendingSessionOptions } from '@clerk/types';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
 
-export type ElysiaClerkOptions = Omit<AuthenticateRequestOptions, 'machineSecretKey' | 'acceptsToken'>;
+export type ElysiaClerkOptions = Omit<
+	AuthenticateRequestOptions,
+	'machineSecretKey' | 'acceptsToken'
+>;
 
 const HandshakeStatus = 'handshake';
 const LocationHeader = 'location';
