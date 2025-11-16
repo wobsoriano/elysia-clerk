@@ -1,3 +1,4 @@
+import type { SessionAuthObject } from '@clerk/backend';
 import {
 	type AuthenticateRequestOptions,
 	TokenType,
@@ -6,7 +7,6 @@ import type { PendingSessionOptions } from '@clerk/shared/types';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
-import type { SessionAuthObject } from '@clerk/backend';
 
 export type ElysiaClerkOptions = Omit<
 	AuthenticateRequestOptions,
