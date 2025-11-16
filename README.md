@@ -28,22 +28,22 @@ import { clerkPlugin } from 'elysia-clerk'
 
 new Elysia()
   .use(clerkPlugin())
-  .get('/private', async ({ auth, clerk }) => {
-    const { userId } = ctx.auth()
+  .get('/private', async ({ auth, clerk, error }) => {
+    const { userId } = auth()
 
     /**
      * Access the auth state in the context.
      * See the AuthObject here https://clerk.com/docs/references/nextjs/auth-object#auth-object
      */
     if (!userId) {
-      return ctx.error(401)
+      return error(401)
     }
 
     /**
      * For other resource operations, you can use the clerk client from the context.
      * See what other utilities Clerk exposes here https://clerk.com/docs/references/backend/overview
      */
-    const user = await ctx.clerk.users.getUser(userId)
+    const user = await clerk.users.getUser(userId)
 
     return { user }
   })
