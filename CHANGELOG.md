@@ -1,5 +1,15 @@
 # elysia-clerk
 
+## 0.13.0
+
+### Minor Changes
+
+- b92dcdf: Make package ESM only
+
+### Patch Changes
+
+- 3995c20: Migrate @clerk/types import to @clerk/shared/types
+
 ## 0.12.2
 
 ### Patch Changes
