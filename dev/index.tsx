@@ -21,7 +21,7 @@ export const app = new Elysia()
   })
   .get('/private', async ({ set, auth, clerk }) => {
     const authObj = auth()
-    if (!authObj?.userId) {
+    if (!authObj.userId) {
       set.status = 403
       return 'Unauthorized'
     }

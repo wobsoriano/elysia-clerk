@@ -6,6 +6,7 @@ import type { PendingSessionOptions } from '@clerk/shared/types';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
+import type { SessionAuthObject } from '@clerk/backend';
 
 export type ElysiaClerkOptions = Omit<
 	AuthenticateRequestOptions,
@@ -37,7 +38,7 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 			});
 
 			const auth = (options?: PendingSessionOptions) =>
-				requestState.toAuth(options);
+				requestState.toAuth(options) as SessionAuthObject;
 
 			requestState.headers.forEach((value, key) => {
 				set.headers[key] = value;
