@@ -1,5 +1,6 @@
 {
   "name": "elysia-clerk",
+  "type": "module",
   "version": "0.12.2",
   "description": "Unofficial Clerk plugin for Elysia.",
   "author": "Robert Soriano <sorianorobertc@gmail.com>",
@@ -22,28 +23,16 @@
   ],
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      }
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./webhooks": {
-      "import": {
-        "types": "./dist/webhooks.d.mts",
-        "default": "./dist/webhooks.mjs"
-      },
-      "require": {
-        "types": "./dist/webhooks.d.ts",
-        "default": "./dist/webhooks.js"
-      }
+      "types": "./dist/webhooks.d.ts",
+      "default": "./dist/webhooks.js"
     }
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
@@ -54,7 +43,7 @@
     "prepublishOnly": "bun run build",
     "release": "changeset publish",
     "lint": "biome check src",
-    "lint:attw": "attw --pack .",
+    "lint:attw": "attw --pack . --profile esm-only",
     "lint:fix": "biome check --write src",
     "format": "biome format src --write",
     "test": "bun test --preload ./setup.ts",
@@ -64,8 +53,8 @@
     "elysia": "^1.2.0"
   },
   "dependencies": {
-    "@clerk/backend": "^2.15.0",
-    "@clerk/shared": "^3.26.1"
+    "@clerk/backend": "^2.22.0",
+    "@clerk/shared": "^3.34.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.17.4",

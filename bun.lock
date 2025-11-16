@@ -5,8 +5,8 @@
     "": {
       "name": "elysia-clerk",
       "dependencies": {
-        "@clerk/backend": "^2.15.0",
-        "@clerk/shared": "^3.26.1",
+        "@clerk/backend": "^2.22.0",
+        "@clerk/shared": "^3.34.0",
       },
       "devDependencies": {
         "@arethetypeswrong/cli": "^0.17.4",
