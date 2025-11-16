@@ -1,9 +1,8 @@
-import type { SessionAuthObject } from '@clerk/backend';
 import {
 	type AuthenticateRequestOptions,
 	TokenType,
 } from '@clerk/backend/internal';
-import type { PendingSessionOptions } from '@clerk/types';
+import type { PendingSessionOptions } from '@clerk/shared/types';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
@@ -22,7 +21,11 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 
 	return new Elysia({
 		name: 'elysia-clerk',
-		seed: options,
+		seed: {
+			...options,
+			secretKey,
+			publishableKey,
+		},
 	})
 		.decorate('clerk', clerkClient)
 		.resolve(async ({ request, set }) => {
@@ -34,7 +37,7 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 			});
 
 			const auth = (options?: PendingSessionOptions) =>
-				requestState.toAuth(options) as SessionAuthObject;
+				requestState.toAuth(options);
 
 			requestState.headers.forEach((value, key) => {
 				set.headers[key] = value;
