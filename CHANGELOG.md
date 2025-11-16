@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 0.13.1
+
+### Patch Changes
+
+- d07b60a: Fix auth() return type
+
 ## 0.13.0
 
 ### Minor Changes
