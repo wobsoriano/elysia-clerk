@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 0.13.2
+
+### Patch Changes
+
+- a84328a: Fixed issue with Request cloning
+
 ## 0.13.1
 
 ### Patch Changes
