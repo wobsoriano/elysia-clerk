@@ -7,6 +7,7 @@ import type { PendingSessionOptions } from '@clerk/shared/types';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
+import { patchRequest } from './utils';
 
 export type ElysiaClerkOptions = Omit<
 	AuthenticateRequestOptions,
@@ -30,7 +31,7 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 	})
 		.decorate('clerk', clerkClient)
 		.resolve(async ({ request, set }) => {
-			const requestState = await clerkClient.authenticateRequest(request, {
+			const requestState = await clerkClient.authenticateRequest(patchRequest(request), {
 				...options,
 				secretKey,
 				publishableKey,
