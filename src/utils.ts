@@ -6,18 +6,22 @@
  * @internal
  */
 export function patchRequest(request: Request) {
-  const clonedRequest = new Request(request.url, {
-    headers: request.headers,
-    method: request.method,
-    redirect: request.redirect,
-    cache: request.cache,
-    signal: request.signal,
-  });
+	const clonedRequest = new Request(request.url, {
+		headers: request.headers,
+		method: request.method,
+		redirect: request.redirect,
+		cache: request.cache,
+		signal: request.signal,
+	});
 
-  // If duplex is not set, set it to 'half' to avoid duplex issues with unidici
-  if (clonedRequest.method !== 'GET' && clonedRequest.body !== null && !('duplex' in clonedRequest)) {
-    (clonedRequest as unknown as { duplex: 'half' }).duplex = 'half';
-  }
+	// If duplex is not set, set it to 'half' to avoid duplex issues with unidici
+	if (
+		clonedRequest.method !== 'GET' &&
+		clonedRequest.body !== null &&
+		!('duplex' in clonedRequest)
+	) {
+		(clonedRequest as unknown as { duplex: 'half' }).duplex = 'half';
+	}
 
-  return clonedRequest;
-};
+	return clonedRequest;
+}

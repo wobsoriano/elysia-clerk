@@ -31,12 +31,15 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
 	})
 		.decorate('clerk', clerkClient)
 		.resolve(async ({ request, set }) => {
-			const requestState = await clerkClient.authenticateRequest(patchRequest(request), {
-				...options,
-				secretKey,
-				publishableKey,
-				acceptsToken: TokenType.SessionToken,
-			});
+			const requestState = await clerkClient.authenticateRequest(
+				patchRequest(request),
+				{
+					...options,
+					secretKey,
+					publishableKey,
+					acceptsToken: TokenType.SessionToken,
+				},
+			);
 
 			const auth = (options?: PendingSessionOptions) =>
 				requestState.toAuth(options) as SessionAuthObject;
