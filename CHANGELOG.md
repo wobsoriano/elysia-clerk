@@ -46,12 +46,12 @@
   _Required_: Set your `CLERK_WEBHOOK_SIGNING_SECRET` environment variable to protect your webhook signing secret. It is automatically read by `verifyWebhook()`.
 
   ```ts
-  import { clerkPlugin } from "elysia-clerk";
-  import { verifyWebhook } from "elysia-clerk/webhooks";
+  import { clerkPlugin } from 'elysia-clerk';
+  import { verifyWebhook } from 'elysia-clerk/webhooks';
 
   new Elysia()
     .use(clerkPlugin())
-    .get("/webhook", ({ request }) => {
+    .get('/webhook', ({ request }) => {
       const result = await verifyWebhook(request);
       // do something with the result
     })
@@ -148,7 +148,7 @@
   new Elysia()
     .use(clerkPlugin())
     .get(
-      "/current-user",
+      '/current-user',
       ({ currentUser, error }) => {
         if (!currentUser) {
           return error(401);
@@ -158,7 +158,7 @@
       },
       {
         currentUser: true,
-      }
+      },
     )
     .listen(3000);
   ```
@@ -260,15 +260,15 @@
   Usage:
 
   ```ts
-  import { Elysia } from "elysia";
-  import { clerkPlugin } from "elysia-clerk";
+  import { Elysia } from 'elysia';
+  import { clerkPlugin } from 'elysia-clerk';
 
   new Elysia()
     .use(clerkPlugin())
-    .get("/api/me", async ({ clerk, auth, set }) => {
+    .get('/api/me', async ({ clerk, auth, set }) => {
       if (!auth?.userId) {
         set.status = 403;
-        return "Unauthorized";
+        return 'Unauthorized';
       }
 
       const user = await clerk.users.getUser(auth.userId);

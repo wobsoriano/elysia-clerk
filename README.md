@@ -23,31 +23,31 @@ CLERK_SECRET_KEY=sk_******
 Configure `clerkPlugin` in your Elysia application
 
 ```ts
-import { Elysia } from 'elysia'
-import { clerkPlugin } from 'elysia-clerk'
+import { Elysia } from 'elysia';
+import { clerkPlugin } from 'elysia-clerk';
 
 new Elysia()
   .use(clerkPlugin())
   .get('/private', async ({ auth, clerk, error }) => {
-    const { userId } = auth()
+    const { userId } = auth();
 
     /**
      * Access the auth state in the context.
      * See the AuthObject here https://clerk.com/docs/references/nextjs/auth-object#auth-object
      */
     if (!userId) {
-      return error(401)
+      return error(401);
     }
 
     /**
      * For other resource operations, you can use the clerk client from the context.
      * See what other utilities Clerk exposes here https://clerk.com/docs/references/backend/overview
      */
-    const user = await clerk.users.getUser(userId)
+    const user = await clerk.users.getUser(userId);
 
-    return { user }
+    return { user };
   })
-  .listen(3000)
+  .listen(3000);
 ```
 
 To see the available options you can pass to the `clerkPlugin` function, see [`AuthenticateRequestOptions`](https://clerk.com/docs/references/backend/authenticate-request#authenticate-request-options).
