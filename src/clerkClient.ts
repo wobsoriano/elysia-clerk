@@ -1,4 +1,3 @@
-/// <reference path="../global.d.ts" />
 import { createClerkClient } from '@clerk/backend';
 
 import {
