@@ -34,7 +34,7 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
         ...options,
         secretKey,
         publishableKey,
-        acceptsToken: TokenType.SessionToken,
+        acceptsToken: 'any',
       });
 
       requestState.headers.forEach((value, key) => {
