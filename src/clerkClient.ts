@@ -1,4 +1,4 @@
-import { createClerkClient } from '@clerk/backend';
+import { createClerkClient, type ClerkOptions } from '@clerk/backend';
 
 import {
   API_URL,
@@ -11,16 +11,20 @@ import {
   MACHINE_SECRET_KEY,
 } from './constants';
 
-export const clerkClient = createClerkClient({
-  secretKey: SECRET_KEY,
-  machineSecretKey: MACHINE_SECRET_KEY,
-  apiUrl: API_URL,
-  apiVersion: API_VERSION,
-  jwtKey: JWT_KEY,
-  userAgent: `${PACKAGE_NAME}@${PACKAGE_VERSION}`,
-  sdkMetadata: SDK_METADATA,
-  telemetry: {
-    disabled: TELEMETRY_DISABLED,
-    debug: TELEMETRY_DEBUG,
-  },
-});
+export function clerkClient(options: ClerkOptions = {}) {
+  return createClerkClient({
+    secretKey: SECRET_KEY,
+    machineSecretKey: MACHINE_SECRET_KEY,
+    apiUrl: API_URL,
+    apiVersion: API_VERSION,
+    jwtKey: JWT_KEY,
+    userAgent: `${PACKAGE_NAME}@${PACKAGE_VERSION}`,
+    sdkMetadata: SDK_METADATA,
+    telemetry: {
+      disabled: TELEMETRY_DISABLED,
+      debug: TELEMETRY_DEBUG,
+      ...options.telemetry,
+    },
+    ...options,
+  });
+}

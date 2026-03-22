@@ -27,7 +27,12 @@ import { Elysia } from 'elysia';
 import { clerkPlugin } from 'elysia-clerk';
 
 new Elysia()
-  .use(clerkPlugin())
+  .use(
+    clerkPlugin({
+      publishableKey: env.CLERK_PUBLISHABLE_KEY,
+      secretKey: env.CLERK_SECRET_KEY,
+    }),
+  )
   .get('/private', async ({ auth, clerk, error }) => {
     const { userId } = auth();
 
@@ -51,6 +56,8 @@ new Elysia()
 ```
 
 To see the available options you can pass to the `clerkPlugin` function, see [`AuthenticateRequestOptions`](https://clerk.com/docs/references/backend/authenticate-request#authenticate-request-options).
+
+To call [Clerk BAPI methods](https://clerk.com/docs/reference/backend-api) outside of Elysia handlers, use the exported `clerkClient()`.
 
 ## License
 

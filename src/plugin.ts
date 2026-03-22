@@ -1,9 +1,9 @@
-import type { AuthObject } from '@clerk/backend';
+import type { AuthObject, ClerkClient, ClerkOptions } from '@clerk/backend';
 import {
   type AuthenticateRequestOptions,
   type AuthOptions,
   type GetAuthFnNoRequest,
-  TokenType,
+  type RequestState,
 } from '@clerk/backend/internal';
 import { getAuthObjectForAcceptedToken } from '@clerk/backend/internal';
 import { Elysia } from 'elysia';
@@ -16,30 +16,53 @@ export type ElysiaClerkOptions = Omit<
   'machineSecretKey' | 'acceptsToken'
 >;
 
+type ElysiaClerkContext = {
+  auth: GetAuthFnNoRequest;
+  clerk: ClerkClient;
+  __internal_clerkRequestState: RequestState<any>;
+};
+
+function resolveClerkOptions(options?: ElysiaClerkOptions): ClerkOptions {
+  return {
+    secretKey: options?.secretKey ?? constants.SECRET_KEY,
+    publishableKey: options?.publishableKey ?? constants.PUBLISHABLE_KEY,
+    apiUrl: options?.apiUrl ?? constants.API_URL,
+    apiVersion: options?.apiVersion ?? constants.API_VERSION,
+    jwtKey: options?.jwtKey ?? constants.JWT_KEY,
+    audience: options?.audience,
+    proxyUrl: options?.proxyUrl,
+    domain: options?.domain,
+    isSatellite: options?.isSatellite,
+    sdkMetadata: constants.SDK_METADATA,
+    telemetry: {
+      disabled: constants.TELEMETRY_DISABLED,
+      debug: constants.TELEMETRY_DEBUG,
+    },
+  };
+}
+
 export function clerkPlugin(options?: ElysiaClerkOptions) {
-  const secretKey = options?.secretKey ?? constants.SECRET_KEY;
-  const publishableKey = options?.publishableKey ?? constants.PUBLISHABLE_KEY;
+  const resolvedClerkOptions = resolveClerkOptions(options);
+  const resolvedClerkClient = clerkClient(resolvedClerkOptions);
 
   return new Elysia({
     name: 'elysia-clerk',
     seed: {
       ...options,
-      secretKey,
-      publishableKey,
+      secretKey: resolvedClerkOptions.secretKey,
+      publishableKey: resolvedClerkOptions.publishableKey,
     },
   })
-    .decorate('clerk', clerkClient)
-    .resolve(async ({ request, set }) => {
-      const requestState = await clerkClient.authenticateRequest(patchRequest(request), {
-        ...options,
-        secretKey,
-        publishableKey,
-        acceptsToken: 'any',
-      });
-
-      requestState.headers.forEach((value, key) => {
-        set.headers[key] = value;
-      });
+    .decorate('clerk', resolvedClerkClient)
+    .resolve(async ({ request }): Promise<ElysiaClerkContext> => {
+      const requestState = await resolvedClerkClient.authenticateRequest(
+        patchRequest(request),
+        {
+          ...options,
+          ...resolvedClerkOptions,
+          acceptsToken: 'any',
+        },
+      );
 
       const auth = ((authOptions?: AuthOptions) =>
         getAuthObjectForAcceptedToken({
@@ -47,22 +70,25 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
           acceptsToken: 'any',
         })) as GetAuthFnNoRequest;
 
-      const locationHeader = requestState.headers.get('location');
-      if (locationHeader) {
-        // Trigger a handshake redirect
-        set.status = 307;
-        return {
-          auth,
-        };
-      }
-
-      if (requestState.status === 'handshake') {
-        throw new Error('Clerk: Unexpected handshake without redirect');
-      }
-
       return {
         auth,
+        clerk: resolvedClerkClient,
+        __internal_clerkRequestState: requestState,
       };
+    })
+    .onBeforeHandle(({ __internal_clerkRequestState, redirect, set }) => {
+      __internal_clerkRequestState.headers.forEach((value, key) => {
+        set.headers[key] = value;
+      });
+
+      const locationHeader = __internal_clerkRequestState.headers.get('location');
+      if (locationHeader) {
+        return redirect(locationHeader, 307);
+      }
+
+      if (__internal_clerkRequestState.status === 'handshake') {
+        throw new Error('Clerk: Unexpected handshake without redirect');
+      }
     })
     .as('scoped');
 }

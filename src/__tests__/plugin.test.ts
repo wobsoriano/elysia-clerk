@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from 'bun:test';
 import Elysia from 'elysia';
-import { clerkPlugin } from '../plugin';
+import { clerkClient, clerkPlugin } from '../index';
 
 describe('plugin(options)', () => {
   beforeEach(() => {
@@ -107,5 +107,88 @@ describe('plugin(options)', () => {
       'x-clerk-auth-reason': 'auth-reason',
       'x-clerk-auth-message': 'auth-message',
     });
+  });
+
+  it('builds the plugin clerk client from resolved plugin options', async () => {
+    globalThis.authenticateRequestMock.mockResolvedValueOnce({
+      headers: new Headers(),
+      toAuth: () => ({ userId: 'user_123' }),
+      status: 'signed-in',
+    });
+
+    const app = new Elysia()
+      .use(
+        clerkPlugin({
+          secretKey: 'sk_runtime',
+          publishableKey: 'pk_runtime',
+          apiUrl: 'https://api.example.com',
+          apiVersion: 'v2',
+        }),
+      )
+      .get('/', ({ clerk }) => ({
+        secretKey: (clerk as any).options.secretKey,
+        publishableKey: (clerk as any).options.publishableKey,
+        apiUrl: (clerk as any).options.apiUrl,
+        apiVersion: (clerk as any).options.apiVersion,
+      }));
+
+    const response = await app.handle(new Request('http://localhost/'));
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({
+      secretKey: 'sk_runtime',
+      publishableKey: 'pk_runtime',
+      apiUrl: 'https://api.example.com',
+      apiVersion: 'v2',
+    });
+    expect(globalThis.createClerkClientMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        secretKey: 'sk_runtime',
+        publishableKey: 'pk_runtime',
+        apiUrl: 'https://api.example.com',
+        apiVersion: 'v2',
+      }),
+    );
+  });
+});
+
+describe('clerkClient()', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
+  it('uses default constants when called without overrides', () => {
+    const client = clerkClient();
+
+    expect((client as any).options).toEqual(
+      expect.objectContaining({
+        secretKey: 'TEST_SECRET_KEY',
+        machineSecretKey: '',
+      }),
+    );
+  });
+
+  it('applies overrides on top of defaults', () => {
+    const client = clerkClient({
+      secretKey: 'sk_override',
+      apiVersion: 'v2',
+      telemetry: {
+        debug: false,
+      },
+    });
+
+    expect((client as any).options).toEqual(
+      expect.objectContaining({
+        secretKey: 'sk_override',
+        apiVersion: 'v2',
+        machineSecretKey: '',
+      }),
+    );
+    expect((client as any).options.telemetry).toEqual(
+      expect.objectContaining({
+        debug: false,
+      }),
+    );
   });
 });

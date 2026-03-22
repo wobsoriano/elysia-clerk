@@ -6,6 +6,7 @@ globalThis.PACKAGE_VERSION = pkg.version;
 
 declare global {
   var authenticateRequestMock: ReturnType<typeof jest.fn>;
+  var createClerkClientMock: ReturnType<typeof jest.fn>;
 }
 
 if (process.env.NODE_ENV === 'test') {
@@ -13,13 +14,20 @@ if (process.env.NODE_ENV === 'test') {
   process.env.CLERK_PUBLISHABLE_KEY = 'pk_test_dGlnaHQtcmFiYml0LTk0LmNsZXJrLmFjY291bnRzLmRldiQ';
 
   globalThis.authenticateRequestMock = jest.fn();
+  globalThis.createClerkClientMock = jest.fn();
 
   mock.module('@clerk/backend', () => {
     const mod = require('@clerk/backend');
     return {
       ...mod,
-      createClerkClient: () => {
+      createClerkClient: (options: any) => {
+        globalThis.createClerkClientMock(options);
+
         return {
+          options,
+          users: {
+            getUser: jest.fn(),
+          },
           authenticateRequest: (...args: any) => globalThis.authenticateRequestMock(...args),
         };
       },
