@@ -11,10 +11,7 @@ import { clerkClient } from './clerkClient';
 import * as constants from './constants';
 import { patchRequest } from './utils';
 
-export type ElysiaClerkOptions = Omit<
-  AuthenticateRequestOptions,
-  'machineSecretKey' | 'acceptsToken'
->;
+export type ElysiaClerkOptions = Omit<AuthenticateRequestOptions, 'acceptsToken'>;
 
 type ElysiaClerkContext = {
   auth: GetAuthFnNoRequest;
@@ -34,6 +31,7 @@ function resolveClerkOptions(options?: ElysiaClerkOptions): ClerkOptions {
     domain: options?.domain,
     isSatellite: options?.isSatellite,
     sdkMetadata: constants.SDK_METADATA,
+    machineSecretKey: options?.machineSecretKey ?? constants.MACHINE_SECRET_KEY,
     telemetry: {
       disabled: constants.TELEMETRY_DISABLED,
       debug: constants.TELEMETRY_DEBUG,
@@ -55,14 +53,11 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
   })
     .decorate('clerk', resolvedClerkClient)
     .resolve(async ({ request }): Promise<ElysiaClerkContext> => {
-      const requestState = await resolvedClerkClient.authenticateRequest(
-        patchRequest(request),
-        {
-          ...options,
-          ...resolvedClerkOptions,
-          acceptsToken: 'any',
-        },
-      );
+      const requestState = await resolvedClerkClient.authenticateRequest(patchRequest(request), {
+        ...options,
+        ...resolvedClerkOptions,
+        acceptsToken: 'any',
+      });
 
       const auth = ((authOptions?: AuthOptions) =>
         getAuthObjectForAcceptedToken({
