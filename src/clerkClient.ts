@@ -8,10 +8,12 @@ import {
   SECRET_KEY,
   TELEMETRY_DEBUG,
   TELEMETRY_DISABLED,
+  MACHINE_SECRET_KEY,
 } from './constants';
 
 export const clerkClient = createClerkClient({
   secretKey: SECRET_KEY,
+  machineSecretKey: MACHINE_SECRET_KEY,
   apiUrl: API_URL,
   apiVersion: API_VERSION,
   jwtKey: JWT_KEY,

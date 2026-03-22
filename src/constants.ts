@@ -13,3 +13,4 @@ export const SDK_METADATA = {
 };
 export const TELEMETRY_DISABLED = isTruthy(process.env.CLERK_TELEMETRY_DISABLED);
 export const TELEMETRY_DEBUG = isTruthy(process.env.CLERK_TELEMETRY_DEBUG);
+export const MACHINE_SECRET_KEY = process.env.CLERK_MACHINE_SECRET_KEY || '';
