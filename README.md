@@ -28,7 +28,7 @@ import { clerkPlugin } from 'elysia-clerk';
 
 new Elysia()
   .use(clerkPlugin())
-  .get('/private', async ({ auth, clerk, error }) => {
+  .get('/private', async ({ auth, clerk, error, status }) => {
     const { userId } = auth();
 
     /**
@@ -36,7 +36,7 @@ new Elysia()
      * See the AuthObject here https://clerk.com/docs/references/nextjs/auth-object#auth-object
      */
     if (!userId) {
-      return error(401);
+      return status(401);
     }
 
     /**

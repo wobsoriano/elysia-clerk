@@ -22,11 +22,10 @@ export const app = new Elysia()
       process.env.CLERK_PUBLISHABLE_KEY as string,
     );
   })
-  .get('/private', async ({ set, auth, clerk }) => {
+  .get('/private', async ({ set, auth, clerk, status }) => {
     const { userId } = auth();
     if (!userId) {
-      set.status = 403;
-      return 'Unauthorized';
+      return status(401, 'Unauthorized');
     }
 
     const user = await clerk.users.getUser(userId);
