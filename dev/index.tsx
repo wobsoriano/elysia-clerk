@@ -17,16 +17,19 @@ export const app = new Elysia()
   .use(html())
   .get('/', () => contents)
   .get('/app.js', () => {
-    return appContents.replace('REPLACE_ME', process.env.CLERK_PUBLISHABLE_KEY as string);
+    return appContents.replace(
+      'CLERK_PUBLISHABLE_KEY',
+      process.env.CLERK_PUBLISHABLE_KEY as string,
+    );
   })
   .get('/private', async ({ set, auth, clerk }) => {
-    const authObj = auth();
-    if (!authObj.userId) {
+    const { userId } = auth();
+    if (!userId) {
       set.status = 403;
       return 'Unauthorized';
     }
 
-    const user = await clerk.users.getUser(authObj.userId);
+    const user = await clerk.users.getUser(userId);
 
     return {
       user,
