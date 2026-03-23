@@ -1,40 +1,66 @@
-const publishableKey = 'REPLACE_ME' // <- Add Publishable Key here
+const publishableKey = 'CLERK_PUBLISHABLE_KEY';
 
-async function startClerk() {
-  const Clerk = window.Clerk
+// Derive the Clerk frontend API domain from the publishable key
+const clerkDomain = atob(publishableKey.split('_')[2]).slice(0, -1);
 
+function loadScript(src, attributes = {}) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+
+    script.src = src;
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.type = 'text/javascript';
+
+    Object.entries(attributes).forEach(([key, value]) => {
+      script.setAttribute(key, value);
+    });
+
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+
+    document.head.appendChild(script);
+  });
+}
+
+async function loadClerk() {
   try {
-    // Load Clerk environment and session if available
-    await Clerk.load()
+    await loadScript(`https://${clerkDomain}/npm/@clerk/clerk-js@5/dist/clerk.browser.js`, {
+      'data-clerk-publishable-key': publishableKey,
+    });
 
-    const userButton = document.getElementById('user-button')
-    const authLinks = document.getElementById('auth-links')
+    await loadScript(`https://${clerkDomain}/npm/@clerk/ui@1/dist/ui.browser.js`);
 
-    Clerk.addListener(({ user }) => {
-      // Display links conditionally based on user state
-      authLinks.style.display = user ? 'none' : 'block'
-    })
+    await Clerk.load({
+      ui: { ClerkUI: window.__internal_ClerkUICtor },
+    });
 
-    if (Clerk.user) {
-      // Mount user button component
-      Clerk.mountUserButton(userButton)
-      userButton.style.margin = 'auto'
+    const app = document.getElementById('app');
+
+    if (!app) {
+      return;
     }
-  }
-  catch (err) {
-    console.error('Error starting Clerk: ', err)
+
+    if (Clerk.isSignedIn) {
+      app.innerHTML = `
+        <div id="user-button"></div>
+      `;
+
+      const userButtonDiv = document.getElementById('user-button');
+
+      Clerk.mountUserButton(userButtonDiv);
+    } else {
+      app.innerHTML = `
+        <div id="sign-in"></div>
+      `;
+
+      const signInDiv = document.getElementById('sign-in');
+
+      Clerk.mountSignIn(signInDiv);
+    }
+  } catch (error) {
+    console.error(error);
   }
 }
 
-(() => {
-  const script = document.createElement('script')
-  script.setAttribute('data-clerk-publishable-key', publishableKey)
-  script.async = true
-  script.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js'
-  script.crossOrigin = 'anonymous'
-  script.addEventListener('load', startClerk)
-  script.addEventListener('error', () => {
-    document.getElementById('no-frontend-api-warning').hidden = false
-  })
-  document.body.appendChild(script)
-})()
+loadClerk();

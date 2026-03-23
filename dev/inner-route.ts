@@ -1,5 +1,4 @@
-import Elysia from "elysia";
-import { app } from './index'
+import Elysia from 'elysia';
 
 /**
  * @description There is a known error for properties 'clerk' and 'store.auth'
@@ -12,16 +11,16 @@ import { app } from './index'
  * Issue: https://github.com/elysiajs/elysia/issues/566
  */
 const innerRoute = new Elysia()
-  // .use(app.prefix('decorator', 'setup'))
-  .get("/inner", async ({ clerk, store, set }) => {
-  if (!store.auth?.userId) {
-    set.status = 403;
-    return "Unauthorized";
-  }
+  // @ts-expect-error: See above
+  .get('/inner', async ({ set, auth, clerk }) => {
+    if (!auth().userId) {
+      set.status = 403;
+      return 'Unauthorized';
+    }
 
-  const user = await clerk.users.getUser(store.auth.userId);
+    const user = await clerk.users.getUser(auth().userId);
 
-  return { user };
-});
+    return { user };
+  });
 
 export default innerRoute;

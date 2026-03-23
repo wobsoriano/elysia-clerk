@@ -20,18 +20,17 @@ jobs:
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - uses: voidzero-dev/setup-vp@v1
         with:
-          bun-version: latest
+          cache: true
 
-      - run: bun install
+      - run: vp install
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: bun run release
+          publish: vp run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

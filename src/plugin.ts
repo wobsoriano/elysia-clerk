@@ -1,69 +1,96 @@
-import type { SessionAuthObject } from '@clerk/backend';
+import type { AuthObject, ClerkClient, ClerkOptions } from '@clerk/backend';
 import {
-	type AuthenticateRequestOptions,
-	TokenType,
+  type AuthenticateRequestOptions,
+  type AuthOptions,
+  type GetAuthFnNoRequest,
+  type RequestState,
 } from '@clerk/backend/internal';
-import type { PendingSessionOptions } from '@clerk/shared/types';
+import { getAuthObjectForAcceptedToken } from '@clerk/backend/internal';
 import { Elysia } from 'elysia';
 import { clerkClient } from './clerkClient';
 import * as constants from './constants';
 import { patchRequest } from './utils';
 
-export type ElysiaClerkOptions = Omit<
-	AuthenticateRequestOptions,
-	'machineSecretKey' | 'acceptsToken'
->;
+export type ElysiaClerkOptions = Omit<AuthenticateRequestOptions, 'acceptsToken'>;
 
-const HandshakeStatus = 'handshake';
-const LocationHeader = 'location';
+type ElysiaClerkContext = {
+  auth: GetAuthFnNoRequest;
+  clerk: ClerkClient;
+  __internal_clerkRequestState: RequestState<any>;
+};
+
+function resolveClerkOptions(options?: ElysiaClerkOptions): ClerkOptions {
+  return {
+    secretKey: options?.secretKey ?? constants.SECRET_KEY,
+    publishableKey: options?.publishableKey ?? constants.PUBLISHABLE_KEY,
+    apiUrl: options?.apiUrl ?? constants.API_URL,
+    apiVersion: options?.apiVersion ?? constants.API_VERSION,
+    jwtKey: options?.jwtKey ?? constants.JWT_KEY,
+    audience: options?.audience,
+    proxyUrl: options?.proxyUrl,
+    domain: options?.domain,
+    isSatellite: options?.isSatellite,
+    sdkMetadata: constants.SDK_METADATA,
+    machineSecretKey: options?.machineSecretKey ?? constants.MACHINE_SECRET_KEY,
+    telemetry: {
+      disabled: constants.TELEMETRY_DISABLED,
+      debug: constants.TELEMETRY_DEBUG,
+    },
+  };
+}
 
 export function clerkPlugin(options?: ElysiaClerkOptions) {
-	const secretKey = options?.secretKey ?? constants.SECRET_KEY;
-	const publishableKey = options?.publishableKey ?? constants.PUBLISHABLE_KEY;
+  const resolvedClerkOptions = resolveClerkOptions(options);
+  const resolvedClerkClient = clerkClient(resolvedClerkOptions);
 
-	return new Elysia({
-		name: 'elysia-clerk',
-		seed: {
-			...options,
-			secretKey,
-			publishableKey,
-		},
-	})
-		.decorate('clerk', clerkClient)
-		.resolve(async ({ request, set }) => {
-			const requestState = await clerkClient.authenticateRequest(
-				patchRequest(request),
-				{
-					...options,
-					secretKey,
-					publishableKey,
-					acceptsToken: TokenType.SessionToken,
-				},
-			);
+  return new Elysia({
+    name: 'elysia-clerk',
+    seed: {
+      ...options,
+      secretKey: resolvedClerkOptions.secretKey,
+      publishableKey: resolvedClerkOptions.publishableKey,
+    },
+  })
+    .decorate('clerk', resolvedClerkClient)
+    .resolve(async ({ request }): Promise<ElysiaClerkContext> => {
+      const requestState = await resolvedClerkClient.authenticateRequest(patchRequest(request), {
+        ...options,
+        ...resolvedClerkOptions,
+        acceptsToken: 'any',
+      });
 
-			const auth = (options?: PendingSessionOptions) =>
-				requestState.toAuth(options) as SessionAuthObject;
+      // Cast needed: TypeScript cannot verify a single function implementation
+      // against GetAuthFnNoRequest's multiple overloads. Runtime correctness is
+      // ensured by getAuthObjectForAcceptedToken narrowing based on acceptsToken.
+      const auth = ((authOptions?: AuthOptions) => {
+        const authObject = requestState.toAuth({
+          treatPendingAsSignedOut: authOptions?.treatPendingAsSignedOut,
+        });
+        return getAuthObjectForAcceptedToken({
+          authObject: authObject as AuthObject,
+          acceptsToken: authOptions?.acceptsToken,
+        });
+      }) as GetAuthFnNoRequest;
 
-			requestState.headers.forEach((value, key) => {
-				set.headers[key] = value;
-			});
+      return {
+        auth,
+        clerk: resolvedClerkClient,
+        __internal_clerkRequestState: requestState,
+      };
+    })
+    .onBeforeHandle(({ __internal_clerkRequestState, redirect, set }) => {
+      __internal_clerkRequestState.headers.forEach((value, key) => {
+        set.headers[key] = value;
+      });
 
-			const locationHeader = requestState.headers.get(LocationHeader);
-			if (locationHeader) {
-				// Trigger a handshake redirect
-				set.status = 307;
-				return {
-					auth,
-				};
-			}
+      const locationHeader = __internal_clerkRequestState.headers.get('location');
+      if (locationHeader) {
+        return redirect(locationHeader, 307);
+      }
 
-			if (requestState.status === HandshakeStatus) {
-				throw new Error('Clerk: handshake status without redirect');
-			}
-
-			return {
-				auth,
-			};
-		})
-		.as('scoped');
+      if (__internal_clerkRequestState.status === 'handshake') {
+        throw new Error('Clerk: Unexpected handshake without redirect');
+      }
+    })
+    .as('scoped');
 }

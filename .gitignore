@@ -2,3 +2,7 @@ node_modules
 dist
 .vscode
 .env
+
+# AI
+.agents
+skills-lock.json
