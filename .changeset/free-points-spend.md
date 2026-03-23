@@ -17,9 +17,9 @@ export const app = new Elysia()
   })
   .use(clerkPlugin())
   .get('/api/protected', ({ auth }) => {
-    const auth = auth({ acceptsToken: 'any' });
+    const authObject = auth({ acceptsToken: 'any' });
 
-    if (!auth.isAuthenticated) {
+    if (!authObject.isAuthenticated) {
       // do something for unauthenticated requests
     }
 
