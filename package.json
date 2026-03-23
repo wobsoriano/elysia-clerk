@@ -39,16 +39,16 @@
   },
   "scripts": {
     "dev": "bun run --preload ./setup.ts --watch ./dev/index.tsx",
-    "build": "tsdown",
+    "build": "vp pack",
     "prepublishOnly": "bun run build",
     "release": "changeset publish",
-    "lint": "oxlint",
+    "lint": "vp lint",
     "lint:attw": "attw --pack . --profile esm-only",
-    "lint:fix": "oxlint --fix",
-    "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check",
-    "test": "bun test --preload ./setup.ts",
-    "test:watch": "bun test --watch"
+    "lint:fix": "vp lint --fix",
+    "fmt": "vp fmt",
+    "fmt:check": "vp fmt --check",
+    "test": "vp test",
+    "test:watch": "vp test watch"
   },
   "dependencies": {
     "@clerk/backend": "^3.2.2",
@@ -59,14 +59,15 @@
     "@changesets/cli": "^2.27.10",
     "@elysiajs/eden": "^1.4.8",
     "@elysiajs/html": "^1.4.0",
-    "@types/bun": "^1.3.11",
     "elysia": "^1.4.28",
-    "oxfmt": "^0.41.0",
-    "oxlint": "^1.56.0",
-    "tsdown": "^0.16.4",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "vite-plus": "latest"
   },
   "peerDependencies": {
     "elysia": "^1.4.0"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
+    "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
   }
 }
