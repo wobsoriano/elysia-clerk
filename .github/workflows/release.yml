@@ -23,6 +23,7 @@ jobs:
       - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: '24'
+          registry-url: https://registry.npmjs.org
           cache: true
 
       - run: vp install
