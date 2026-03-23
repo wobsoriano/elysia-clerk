@@ -40,7 +40,7 @@
   "scripts": {
     "dev": "bun run --preload ./setup.ts --watch ./dev/index.tsx",
     "build": "vp pack",
-    "prepublishOnly": "bun run build",
+    "prepublishOnly": "vp run build",
     "release": "changeset publish",
     "lint": "vp lint",
     "lint:attw": "attw --pack . --profile esm-only",
