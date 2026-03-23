@@ -22,6 +22,7 @@ jobs:
           fetch-depth: 0
       - uses: voidzero-dev/setup-vp@v1
         with:
+          node-version: '24'
           cache: true
 
       - run: vp install
@@ -33,4 +34,3 @@ jobs:
           publish: vp run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
