@@ -1,5 +1,46 @@
 # elysia-clerk
 
+## 1.0.0
+
+### Major Changes
+
+- 39ae0f4: Bump Clerk dependencies `@clerk/backend` and `@clerk/shared` to [Clerk Core 3](https://clerk.com/changelog/2026-03-03-core-3) versions.
+
+  This release also raises the minimum supported `elysia` version to `1.4.0`.
+
+### Minor Changes
+
+- 9684bc8: Introduces machine authentication, supporting four token types: `api_key`, `oauth_token`, `machine_token`, and `session_token`. For backwards compatibility, `session_token` remains the default when no token type is specified. This enables machine-to-machine authentication and use cases such as API keys and OAuth integrations. Existing applications continue to work without modification.
+
+  You can specify which token types are allowed by using the `acceptsToken` option in the `auth()` function. This option can be set to a specific type, an array of types, or `'any'` to accept all supported tokens.
+
+  Example usage:
+
+  ```ts
+  import { clerkPlugin } from "elysia-clerk";
+
+  export const app = new Elysia()
+    .onError(({ code, error }) => {
+      console.error(code, error);
+    })
+    .use(clerkPlugin())
+    .get("/api/protected", ({ auth }) => {
+      const authObject = auth({ acceptsToken: "any" });
+
+      if (!authObject.isAuthenticated) {
+        // do something for unauthenticated requests
+      }
+
+      if (authObject.tokenType === "session_token") {
+        console.log("this is session token from a user");
+      } else {
+        console.log("this is some other type of machine token");
+        console.log("more specifically, a " + authObject.tokenType);
+      }
+    })
+    .listen(8080);
+  ```
+
 ## 0.13.2
 
 ### Patch Changes
@@ -46,12 +87,12 @@
   _Required_: Set your `CLERK_WEBHOOK_SIGNING_SECRET` environment variable to protect your webhook signing secret. It is automatically read by `verifyWebhook()`.
 
   ```ts
-  import { clerkPlugin } from 'elysia-clerk';
-  import { verifyWebhook } from 'elysia-clerk/webhooks';
+  import { clerkPlugin } from "elysia-clerk";
+  import { verifyWebhook } from "elysia-clerk/webhooks";
 
   new Elysia()
     .use(clerkPlugin())
-    .get('/webhook', ({ request }) => {
+    .get("/webhook", ({ request }) => {
       const result = await verifyWebhook(request);
       // do something with the result
     })
@@ -148,7 +189,7 @@
   new Elysia()
     .use(clerkPlugin())
     .get(
-      '/current-user',
+      "/current-user",
       ({ currentUser, error }) => {
         if (!currentUser) {
           return error(401);
@@ -158,7 +199,7 @@
       },
       {
         currentUser: true,
-      },
+      }
     )
     .listen(3000);
   ```
@@ -260,15 +301,15 @@
   Usage:
 
   ```ts
-  import { Elysia } from 'elysia';
-  import { clerkPlugin } from 'elysia-clerk';
+  import { Elysia } from "elysia";
+  import { clerkPlugin } from "elysia-clerk";
 
   new Elysia()
     .use(clerkPlugin())
-    .get('/api/me', async ({ clerk, auth, set }) => {
+    .get("/api/me", async ({ clerk, auth, set }) => {
       if (!auth?.userId) {
         set.status = 403;
-        return 'Unauthorized';
+        return "Unauthorized";
       }
 
       const user = await clerk.users.getUser(auth.userId);
