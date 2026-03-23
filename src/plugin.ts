@@ -63,7 +63,9 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
       // against GetAuthFnNoRequest's multiple overloads. Runtime correctness is
       // ensured by getAuthObjectForAcceptedToken narrowing based on acceptsToken.
       const auth = ((authOptions?: AuthOptions) => {
-        const authObject = requestState.toAuth({ treatPendingAsSignedOut: authOptions?.treatPendingAsSignedOut });
+        const authObject = requestState.toAuth({
+          treatPendingAsSignedOut: authOptions?.treatPendingAsSignedOut,
+        });
         return getAuthObjectForAcceptedToken({
           authObject: authObject as AuthObject,
           acceptsToken: authOptions?.acceptsToken,
