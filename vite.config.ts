@@ -2,6 +2,9 @@ import { defineConfig } from 'vite-plus';
 import pkg from './package.json' with { type: 'json' };
 
 export default defineConfig({
+  staged: {
+    '*': 'vp check --fix',
+  },
   define: {
     PACKAGE_NAME: JSON.stringify(pkg.name),
     PACKAGE_VERSION: JSON.stringify(pkg.version),
