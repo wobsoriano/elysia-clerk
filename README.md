@@ -28,7 +28,7 @@ import { clerkPlugin } from 'elysia-clerk';
 
 new Elysia()
   .use(clerkPlugin())
-  .get('/private', async ({ auth, clerk, error, status }) => {
+  .get('/private', async ({ auth, clerk, status }) => {
     const { userId } = auth();
 
     /**
