@@ -59,11 +59,16 @@ export function clerkPlugin(options?: ElysiaClerkOptions) {
         acceptsToken: 'any',
       });
 
-      const auth = ((authOptions?: AuthOptions) =>
-        getAuthObjectForAcceptedToken({
-          authObject: requestState.toAuth(authOptions) as AuthObject,
+      // Cast needed: TypeScript cannot verify a single function implementation
+      // against GetAuthFnNoRequest's multiple overloads. Runtime correctness is
+      // ensured by getAuthObjectForAcceptedToken narrowing based on acceptsToken.
+      const auth = ((authOptions?: AuthOptions) => {
+        const authObject = requestState.toAuth(authOptions);
+        return getAuthObjectForAcceptedToken({
+          authObject: authObject as AuthObject,
           acceptsToken: 'any',
-        })) as GetAuthFnNoRequest;
+        });
+      }) as GetAuthFnNoRequest;
 
       return {
         auth,

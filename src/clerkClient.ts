@@ -18,6 +18,7 @@ export function clerkClient(options: ClerkOptions = {}) {
     apiUrl: API_URL,
     apiVersion: API_VERSION,
     jwtKey: JWT_KEY,
+    ...options,
     userAgent: `${PACKAGE_NAME}@${PACKAGE_VERSION}`,
     sdkMetadata: SDK_METADATA,
     telemetry: {
@@ -25,6 +26,5 @@ export function clerkClient(options: ClerkOptions = {}) {
       debug: TELEMETRY_DEBUG,
       ...options.telemetry,
     },
-    ...options,
   });
 }
