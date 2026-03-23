@@ -27,12 +27,7 @@ import { Elysia } from 'elysia';
 import { clerkPlugin } from 'elysia-clerk';
 
 new Elysia()
-  .use(
-    clerkPlugin({
-      publishableKey: env.CLERK_PUBLISHABLE_KEY,
-      secretKey: env.CLERK_SECRET_KEY,
-    }),
-  )
+  .use(clerkPlugin())
   .get('/private', async ({ auth, clerk, error }) => {
     const { userId } = auth();
 
