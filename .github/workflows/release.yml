@@ -12,6 +12,7 @@ jobs:
     permissions:
       contents: write # to create release (changesets/action)
       pull-requests: write # to create pull request (changesets/action)
+      id-token: write # allows GitHub Actions to generate OIDC tokens
     name: Release
     runs-on: ubuntu-latest
     steps:
