@@ -60,8 +60,8 @@
     "@elysiajs/eden": "^1.4.8",
     "@elysiajs/html": "^1.4.0",
     "elysia": "^1.4.28",
-    "typescript": "5.5.4",
-    "vite-plus": "latest"
+    "typescript": "6.0.2",
+    "vite-plus": "^0.1.11"
   },
   "peerDependencies": {
     "elysia": "^1.4.0"
