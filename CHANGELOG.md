@@ -1,5 +1,11 @@
 # elysia-clerk
 
+## 1.0.1
+
+### Patch Changes
+
+- 6fda7c0: Update @clerk/backend to ^3.2.4 and @clerk/shared to ^4.4.0
+
 ## 1.0.0
 
 ### Major Changes
