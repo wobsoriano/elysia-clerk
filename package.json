@@ -51,8 +51,8 @@
     "test:watch": "vp test watch"
   },
   "dependencies": {
-    "@clerk/backend": "^3.2.7",
-    "@clerk/shared": "^4.5.0"
+    "@clerk/backend": "^3.4.1",
+    "@clerk/shared": "^4.8.5"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
